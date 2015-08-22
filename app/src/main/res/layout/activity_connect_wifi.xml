@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.aigo.kt03.ui.activity.ConnectWifiActivity">
+
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/drw_wifi"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_marginTop="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="选择一个可用的WLAN,让设备接入网络"
+        android:layout_centerHorizontal="true"/>
+
+
+    <Spinner
+        android:id="@+id/et_wifi_name_list"
+        android:layout_marginTop="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入WiFi账号"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/et_wifi_password_list"
+        android:layout_marginTop="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入WiFi密码"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btn_wifi_next"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="发送"/>
+
+</RelativeLayout>

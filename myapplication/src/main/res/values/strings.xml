@@ -1,0 +1,266 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="title_activity_brand_list">BrandListActivity</string>
+    <string name="title_activity_match_remote">MatchRemote</string>
+    <string name="title_activity_confirm_remote">ConfirmRemoteActivity</string>
+
+
+    <!-- Splash -->
+    <string name="start_loading"><![CDATA[Loading...]]></string>
+
+    <!-- App -->
+    <string name="remote_demo">Remote DEMO</string>
+    <string name="remote">Remote</string>
+    <string name="general">General</string>
+
+    <!-- slide menu -->
+    <string name="add_remote">ADD Remote</string>
+    <string name="search_remote">Learn and Auto Model</string>
+    <string name="match_remote">Match Remote</string>
+    <!-- Learn -->
+    <string name="learn_type">Learning type</string>
+    <string name="is_type_air">Is Air Type</string>
+
+    <!-- Refresh -->
+    <string name="p2refresh_head_load_more">加载更多</string>
+    <string name="p2refresh_end_load_more">更    多</string>
+    <string name="p2refresh_end_click_load_more">点击加载</string>
+    <string name="p2refresh_release_refresh">松开立即刷新</string>
+    <string name="p2refresh_pull_to_refresh">下拉刷新</string>
+    <string name="p2refresh_doing_head_refresh">正在刷新&#8230;</string>
+    <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
+    <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
+    <string name="tv_loading">TV loading &#8230;</string>
+
+    <!-- popup -->
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+    <string name="no_data">Net error &#8230;</string>
+    <string name="type_desc">将要支持中。。。</string>
+    <!-- tvinfo  fragment -->
+    <string name="tvinfo">电视信息</string>
+    <string name="setup_location">Location setup</string>
+    <string name="tv_show_info">TV List</string>
+    <!-- brand -->
+    <string name="brand">Brand</string>
+
+    <!-- select -->
+    <string name="device_type">Device type</string>
+    <string name="name_text">Brand name</string>
+    <string name="remote_name">Remote name</string>
+    <string name="cur_name">Current Name</string>
+    <string name="count_text">Current text</string>
+    <string name="auto_text">Auto</string>
+    <string name="stop_text">Stop</string>
+    <string name="up_text">up</string>
+    <string name="down_text">down</string>
+    <string name="cancel_text">Cancle</string>
+    <string name="manual_text">Manual</string>
+    <string name="save_text">Save</string>
+    <string name="change_name">Change</string>
+    <!-- remote select -->
+    <string name="device_brand">设备品牌</string>
+    <string name="turn_off_device">请打开设备电源</string>
+    <string name="turn_off_device_3">以便智能遥控能对设备进行操作</string>
+    <string name="turn_off_device_2">请保证设备能够正常工作</string>
+    <string name="turn_off_device_4">我们继续吗?</string>
+    <string name="menual">Manual</string>
+    <string name="auto">Auto</string>
+    <string name="pravious">Pravious</string>
+    <string name="no_try_next">Try again</string>
+    <string name="yes">OK</string>
+    <string name="information">Information</string>
+    <string name="test_keep_next">测试完所有键值后，请问是否要保存遥控器还是继续测试下一个？</string>
+    <string name="keep">保存</string>
+    <string name="continu">继续</string>
+    <!-- devs list -->
+    <string name="device">我的设备</string>
+
+    <!-- setting fragment -->
+
+    <string name="animation">动画</string>
+    <string name="user">用户</string>
+    <string name="background">背景</string>
+    <string name="vibration">振动</string>
+    <string name="settings">设置</string>
+    <string name="learning">Learning</string>
+    <string name="no_net_error">网络</string>
+    <!-- aircon remote list -->
+    <string name="talkback_power_button">空调</string>
+    <string name="talkback_aircon_mode_button">空调</string>
+    <string name="sp_lockscreen_remote_drive_mode">模式</string>
+    <string name="talkback_temperature_up_button">空调</string>
+    <string name="talkback_temperature_down_button">空调</string>
+    <string name="temp">空调</string>
+    <string name="talkback_fan_up">空调</string>
+    <string name="talkback_fan_down">空调</string>
+    <string name="talkback_fan_button">空调</string>
+    <string name="talkback_turbo_button">空调</string>
+    <string name="turbo">空调</string>
+    <string name="talkback_horizontal_swing_button">空调</string>
+    <string name="swing">空调</string>
+    <string name="talkback_sleep_button">空调</string>
+    <string name="sleep">空调</string>
+
+    <!-- tv remote list -->
+
+    <string name="talkback_magic_remote">电视</string>
+    <string name="talkback_mode_button">电视</string>
+    <string name="talkback_mute_button">电视</string>
+    <string name="talkback_menu_button">电视</string>
+    <string name="talkback_numeric_button">电视</string>
+    <string name="talkback_favorite_channel_button">电视</string>
+    <string name="favorite_ch_remote">喜好</string>
+    <string name="talkback_volume_up_button">电视</string>
+    <string name="talkback_volume_down_button">电视</string>
+    <string name="vol_simple">音量</string>
+    <string name="talkback_Input_button">电视</string>
+    <string name="talkback_channel_up_button">电视</string>
+    <string name="talkback_channel_down_button">电视</string>
+    <string name="ch">频道</string>
+
+    <!-- tv remote number -->
+
+    <string name="remote_numeric_1">1</string>
+    <string name="remote_numeric_2">2</string>
+    <string name="remote_numeric_3">3</string>
+    <string name="remote_numeric_4">4</string>
+    <string name="remote_numeric_5">5</string>
+    <string name="remote_numeric_6">6</string>
+    <string name="remote_numeric_7">7</string>
+    <string name="remote_numeric_8">8</string>
+    <string name="remote_numeric_9">9</string>
+    <string name="remote_numeric_dash">-/--</string>
+    <string name="remote_numeric_0">0</string>
+    <string name="last_channel">0</string>
+    <string name="last_ch">回看</string>
+
+    <!-- tv popup -->
+
+    <string name="talkback_ok_button">1</string>
+    <string name="qremote_menu_ok_btn">OK</string>
+    <string name="talkback_up_button">3</string>
+    <string name="talkback_down_button">4</string>
+    <string name="talkback_left_button">5</string>
+    <string name="talkback_right_button">6</string>
+    <string name="talkback_home_button">7</string>
+    <string name="talkback_back_button">9</string>
+    <string name="talkback_red_button">red</string>
+    <string name="talkback_green_button">green</string>
+    <string name="talkback_yellow_button">yellow</string>
+    <string name="talkback_blue_button">blue</string>
+    <string name="talkback_exit_button">exit</string>
+    <!-- key -->
+
+    <string name="back">Back</string>
+    <string name="power_on">Power</string>
+    <string name="num_1">1</string>
+    <string name="num_2">2</string>
+    <string name="num_3">3</string>
+    <string name="num_4">4</string>
+    <string name="num_5">5</string>
+    <string name="num_6">6</string>
+    <string name="num_7">7</string>
+    <string name="num_8">8</string>
+    <string name="num_9">9</string>
+    <string name="num_10">10</string>
+    <string name="num_0">0</string>
+    <string name="eject">Eject</string>
+    <string name="exit">Exit</string>
+    <string name="favorite">Fav</string>
+    <string name="ff">FF</string>
+    <string name="home">Home</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="input">Input</string>
+    <string name="mute">Mute</string>
+    <string name="next">Next</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="prev">Prev</string>
+    <string name="quickskip">QuickSkip</string>
+    <string name="rec">Rec</string>
+    <string name="rew">Rew</string>
+    <string name="setting">Settings</string>
+    <string name="stop">Stop</string>
+    <string name="vertical">Vertical</string>
+    <string name="hyphen">#8212;</string>
+    <string name="down">Down</string>
+    <string name="left">Left</string>
+    <string name="info">Info</string>
+    <string name="menu">Menu</string>
+    <string name="play_tri">Tri</string>
+    <string name="play_cir">Circular</string>
+    <string name="play_rec">Rect</string>
+    <string name="play_cro">Cross</string>
+    <string name="repeat">Repeat</string>
+    <string name="right">Right</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="up">Up</string>
+    <string name="launch">Launch</string>
+    <string name="play_pause">PlayPause</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="red">Red</string>
+    <string name="yellow">Yellow</string>
+
+    <!-- Remote type -->
+    <string name="tv">TV</string>
+    <string name="stb">Set-Top Box</string>
+    <string name="dvd">DVD</string>
+    <string name="fan">Fan</string>
+    <string name="pjt">Project</string>
+    <string name="air">Air Conditioner</string>
+    <string name="light">Light</string>
+    <string name="camera">Camera</string>
+    <string name="amplify">Amplify</string>
+    <string name="game">Game control</string>
+    <string name="swh">Switch</string>
+    <string name="iptv">IPTH</string>
+    <string name="add">ADD</string>
+
+    <!-- menu main -->
+    <string name="tv_show">TV Information</string>
+    <string name="set_menu">Settings</string>
+    <string name="etek">ET4003YD18</string>
+    <string name="deco">DC6008</string>
+    <string name="consumerir">CONSUMERIR</string>
+    <string name="ble">BLE</string>
+    <string name="Audio">Audio jacket</string>
+    <string name="learn">Learn</string>
+    <string name="edit">Edit</string>
+    <string name="test">Test</string>
+    <string name="clear">Clean</string>
+
+    <!-- match remote -->
+    <string name="search">Search</string>
+    <string name="match">Match</string>
+
+    <!-- warning -->
+    <string name="warning">Warning</string>
+    <string name="no_model_warning">This brand do not have other model to select,please try another</string>
+    <string name="edit_name">Remote Name Edit</string>
+    <string name="no_learn_warning">This device without learning funcation</string>
+    <string name="key_name">Key Name: </string>
+    <string name="learn_info">Learn Data: </string>
+    <string name="learn_key">Learn Key </string>
+    <string name="learn_remote">Learn Remote </string>
+    <string name="remote_sender">Sender </string>
+    <string name="model">Model</string>
+    <string name="show">Show</string>
+    <string name="power_off">OFF</string>
+    <string name="cool">Cool</string>
+    <string name="heart">Heart</string>
+    <string name="dry">Dry</string>
+    <string name="wind">Wind</string>
+    <string name="wind_auto">Wind: Auto</string>
+    <string name="wind_1">Wind: 1</string>
+    <string name="wind_2">Wind: 2</string>
+    <string name="wind_3">Wind: 3</string>
+    <string name="wind_4">Wind: 4</string>
+    <string name="title_activity_socket_demo">SocketDemo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_learn_model">LearnModelActivity</string>
+    <string name="title_activity_auto_model">LearnModelAndAutoModel</string>
+</resources>

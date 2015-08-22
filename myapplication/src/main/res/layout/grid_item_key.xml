@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:padding="10dp"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall" >
+
+    <Button
+        android:id="@+id/key_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/holo_blue_light" />
+
+    <TextView
+        android:id="@+id/key_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/key_button"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textColor="@android:color/holo_blue_light" />
+
+    <TextView
+        android:id="@+id/key_signal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/key_name"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textColor="@android:color/holo_blue_light" />
+
+</RelativeLayout>

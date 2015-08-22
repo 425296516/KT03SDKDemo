@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="user_module-3.3.31">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/com.jiuwei.android/user_module/3.3.31/libs/mta-sdk-1.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/com.jiuwei.android/user_module/3.3.31/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/com.jiuwei.android/user_module/3.3.31/res" />
+      <root url="jar://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/com.jiuwei.android/user_module/3.3.31/libs/open_sdk_r4066.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/com.jiuwei.android/user_module/3.3.31/libs/weibosdkcore.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

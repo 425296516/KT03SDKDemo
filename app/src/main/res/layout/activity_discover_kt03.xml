@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:padding="15dp"
+        android:id="@+id/et_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入需要发送的数据"
+        android:text="Are You Espressif IOT Smart Device?" />
+
+    <Button
+        android:padding="15dp"
+        android:id="@+id/send"
+        android:text="通过UDP广播发送消息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="接收到的内容："/>
+
+        <TextView
+            android:padding="15dp"
+            android:id="@+id/tv_receiver"
+            android:text="接收消息"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <!--
+        <Button
+            android:id="@+id/btn_receiver_message"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="接收消息"/>
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IP："/>
+
+        <EditText
+            android:padding="15dp"
+            android:id="@+id/et_ip_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="返回值（ip地址）:" />
+
+    </LinearLayout>
+
+</LinearLayout>
