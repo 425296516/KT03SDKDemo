@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "kt03.aigo.com.myapplication"
-        minSdkVersion 17
-        targetSdkVersion 22
+        minSdkVersion 14
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -27,6 +27,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':espTouch_Demo')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.jiuwei.android:user_module:3.3.31'
     compile 'com.koushikdutta.async:androidasync:1.3.+'

@@ -14,25 +14,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.aigo.usermodule.ui.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kt03.aigo.com.myapplication.R;
+import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.bean.Brand;
-import kt03.aigo.com.myapplication.business.bean.IRCode;
-import kt03.aigo.com.myapplication.business.bean.IRKey;
-import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.bean.ModelNum;
 import kt03.aigo.com.myapplication.business.bean.SortAdapter;
-import kt03.aigo.com.myapplication.business.util.Constant;
+import kt03.aigo.com.myapplication.business.db.LocalDB;
+import kt03.aigo.com.myapplication.business.task.ModelNumObject;
 import kt03.aigo.com.myapplication.business.util.Globals;
-import kt03.aigo.com.myapplication.business.util.HttpRequest;
+import kt03.aigo.com.myapplication.business.util.RemoteApplication;
 import kt03.aigo.com.myapplication.ui.ui.CharacterParser;
 import kt03.aigo.com.myapplication.ui.ui.MatchRemote;
 import kt03.aigo.com.myapplication.ui.ui.ModelPinyinComparator;
@@ -41,16 +37,17 @@ import kt03.aigo.com.myapplication.ui.ui.SortModel;
 
 public class BrandListActivity extends ActionBarActivity {
 
+    private static final String TAG = BrandListActivity.class.getSimpleName();
     protected static final int GET_MODEL_NUM_OK = 100;
     private ListView brandListView;
     private SideBar sideBar;
     private TextView dialog;
     private SortAdapter adapter;
-    String TAG = "LocalBrandListActivity";
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<String> nameList = new ArrayList<String>();
     private int mType;
     private String mTypeName = null;
+    private LocalDB mRmtDB;
 
 //	private final String getModelNum = "http://222.191.229.234:10068/PhoneRemoteServer/wyf/getmodelnumber";
 
@@ -65,7 +62,7 @@ public class BrandListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brand_list);
 
-
+        initData();
         initViews();
     }
 
@@ -79,12 +76,12 @@ public class BrandListActivity extends ActionBarActivity {
                 case GET_MODEL_NUM_OK:
 
                     Globals.modelSearchs = ((List<ModelNum>) msg.obj);
-                    if(Globals.modelSearchs.size()>0&&Globals.modelSearchs!=null){
+                    if (Globals.modelSearchs.size() > 0 && Globals.modelSearchs != null) {
                         Intent intent = new Intent(BrandListActivity.this,
                                 MatchRemote.class);
 
                         startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(instance, "no model selection", Toast.LENGTH_SHORT).show();
                     }
                     break;
@@ -95,6 +92,14 @@ public class BrandListActivity extends ActionBarActivity {
         }
     };
 
+    private void initData() {
+        mRmtDB = new LocalDB(getApplicationContext());
+
+        mType = Globals.deviceID;
+        mTypeName = Globals.getTypeStr(mType);
+        instance = this;
+        RemoteApplication.getInstance().addActivity(instance);
+    }
 
     private void initViews() {
 
@@ -105,12 +110,7 @@ public class BrandListActivity extends ActionBarActivity {
         sideBar = (SideBar) findViewById(R.id.sidrbar);
 
         sideBar.setTextView(dialog);
-      /*  int typeId = Globals.getTypeStrID(Globals.deviceID);
-        mTitleBarView = (TitleBarView) findViewById(R.id.title_bar);
-        mTitleBarView.setCommonTitle(View.VISIBLE, View.VISIBLE, View.GONE,
-                View.GONE);
-        mTitleBarView.setTitleText(typeId);
-        mTitleBarView.setBtnLeft(R.string.device_type);*/
+
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
             @Override
@@ -129,23 +129,44 @@ public class BrandListActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    final int position, long id) {
 
-                    Brand mBrand = new Brand();
-                    String brandName = ((SortModel) adapter.getItem(position))
-                            .getName();
-                    mBrand.setBrand_tra(brandName);
-                    int brandId = getBrandId(brandName);
+                Brand mBrand = new Brand();
+                final String brandName = ((SortModel) adapter.getItem(position))
+                        .getName();
+                mBrand.setBrand_tra(brandName);
+                final int brandId = getBrandId(brandName);
               /*    Log.d("device is " + Globals.deviceID
                           + "  brandid is " + brandId);*/
-                    String name = getBrandName(brandName);
-                    mBrand.setBrand(name);
-                    mBrand.setSortLetters(name);
-                    mBrand.setId(brandId);
+                String name = getBrandName(brandName);
+                mBrand.setBrand(name);
+                mBrand.setSortLetters(name);
+                mBrand.setId(brandId);
                 Globals.MBrand = mBrand;
-                    Thread thread = new Thread(new GetModelNumRunnable(
+                    /*Thread thread = new Thread(new GetModelNumRunnable(
                             5 , brandId));
-                    thread.start();
+                    thread.start();*/
+
+                Module.getInstance().getModelNumList(brandId,new Module.OnPostListener<ModelNumObject>() {
+                    @Override
+                    public void onSuccess(ModelNumObject result) {
+                        Log.d(TAG, result.getModelNumList().toString());
+                        //ToastUtil.showToast(getApplicationContext(),brandId+brandName);
+                        if (result != null && result.getModelNumList().size() > 0) {
+                            Message message = new Message();
+                            message.what = GET_MODEL_NUM_OK;
+                            message.obj = result.getModelNumList();
+                            handler.sendMessage(message);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(String err) {
+
+                    }
+                });
+
 
             }
         });
@@ -159,10 +180,6 @@ public class BrandListActivity extends ActionBarActivity {
         Collections.sort(SourceDateList, pinyinComparator);
         adapter = new SortAdapter(this, SourceDateList);
         brandListView.setAdapter(adapter);
-
-        // getWindow().setSoftInputMode(
-        // WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        // | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
     }
 
@@ -218,66 +235,6 @@ public class BrandListActivity extends ActionBarActivity {
         return mSortList;
 
     }
-
-
-    class GetModelNumRunnable implements Runnable {
-
-        private Integer idDevice;
-        private Integer idBrand;
-
-        GetModelNumRunnable(Integer idDevice, Integer idBrand) {
-            this.idDevice = idDevice;
-            this.idBrand = idBrand;
-        }
-
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            // String str;
-
-            List<ModelNum> modelSearch = new ArrayList<ModelNum>();
-
-
-            Gson gson = new Gson();
-            // String resp = HttpRequest.sendGet(getModelNum + "/" +
-            // idDevice.toString() + "/" + idBrand.toString());
-            // Logger.debug(resp);
-            String cmd = Constant.GETSERVERSEARCHREMOTE
-                    + idDevice.toString() + "/"
-                    + idBrand.toString();
-            //ETLogger.debug(cmd);
-            Map<Integer, List<Object[]>> searchRemoteKeys = gson.fromJson(HttpRequest.sendGet(cmd), new TypeToken<Map<Integer, List<Object[]>>>() {
-            }.getType());
-
-            Iterator<Map.Entry<Integer, List<Object[]>>> it = searchRemoteKeys.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry<Integer, List<Object[]>> entry = it.next();
-                ModelNum ms = new ModelNum(entry.getKey());
-                List<Object[]> values = entry.getValue();
-                List<IRKey> irkeys = new ArrayList<IRKey>();
-                for (int i = 0; i < values.size(); i++) {
-                    Object[] obj = values.get(i);
-                    IRKey irkey = new IRKey();
-                    irkey.setName((String) obj[0]);
-                    IRCode ir = new IRCode((String) obj[1]);
-                    Infrared inf = new Infrared(ir);
-                    List<Infrared> infrareds = new ArrayList<Infrared>();
-                    infrareds.add(inf);
-                    irkey.setInfrareds(infrareds);
-                    irkeys.add(irkey);
-                }
-                ms.setKeys(irkeys);
-                modelSearch.add(ms);
-
-            }
-
-
-            Message message = new Message();
-            message.what = GET_MODEL_NUM_OK;
-            message.obj = modelSearch;
-            handler.sendMessage(message);
-        }
-        }
 
 
     @Override

@@ -121,7 +121,7 @@ public class Globals {
 	public static boolean isMultiThreadSend;
 	public static int LocalLanguage;
 	public static Remote mRemote;
-	public static int deviceID = ApplianceType.TV;
+	public static int deviceID = ApplianceType.AIR_CONDITIONER;
 
 	public static List<ModelNum> modelSearchs;;
 

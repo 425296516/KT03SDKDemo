@@ -139,12 +139,24 @@ public class Remote {
 		this.learn = learn;
 	}
 
+    @Override
+    public String toString() {
+        return "Remote{" +
+                "id='" + id + '\'' +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", room_no=" + room_no +
+                ", brand_id=" + brand_id +
+                ", model='" + model + '\'' +
+                ", brand=" + brand +
+                ", keys=" + keys +
+                ", learn=" + learn +
+                ", air_keys=" + air_keys +
+                '}';
+    }
 
-	
 
-	
-
-//	public String getDesc() {
+    //	public String getDesc() {
 //		// TODO Auto-generated method stub
 //		return Globals.getTypeStr(type)+"_" +brand.getPinyin()+"_"+ name+ "_"+ model+"_"+brand_id +"_"+id;
 //	}

@@ -43,10 +43,10 @@ public class DummyIRDevice implements IInfraredDevice
         byte[] codes = RemoteCore.prontoToETcode(freq,
                 data);
 
-        Intent intent = new Intent ("BROADCAST_SEND");
+     /*   Intent intent = new Intent ("BROADCAST_SEND");
         intent.putExtra("DATA", codes);
         mContext.sendBroadcast(intent);
-        Log.d(TAG, "mcontext="+mContext+"codes="+codes.length);
+        Log.d(TAG, "mcontext="+mContext+"codes="+codes.length);*/
 
 
 //		String codeStr = Tools.bytesToHexString(codes);

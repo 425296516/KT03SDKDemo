@@ -25,7 +25,7 @@ import kt03.aigo.com.myapplication.business.util.Tools;
 
 public class IRDataBase {
 	
-	
+	private static final String TAG = IRDataBase.class.getSimpleName();
 	
 	public static List<IRKey> getDBkeys(Context mContext,int type, int index){
 		LocalDB lrdb = new LocalDB(mContext);
@@ -39,6 +39,7 @@ public class IRDataBase {
 		
 		for (int i=0;i<keyColumns.size();i++){
 			name = lrdb.strTranslator(keyColumns.get(i).getName());
+
 			IRKey k = new IRKey();
 			k.setName(name);
 			k.setId(i);
@@ -61,11 +62,10 @@ public class IRDataBase {
 		lrdb.open();
 		
 		 ArrayList<KeyColumn> keyColumns =lrdb.getKeyColumn( 5) ;
-		 
-		
-		
+
 		for (int i=0;i<6;i++){
 			name = lrdb.strTranslator(keyColumns.get(i).getName());
+            Log.d(TAG,"name="+name);
 			IRKey k = new IRKey();
 			k.setName(name);
 			k.setId(i);

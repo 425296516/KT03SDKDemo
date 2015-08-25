@@ -95,19 +95,26 @@
         android:background="#dddddd"
         android:orientation="vertical" >
 
-        <LinearLayout
+      <!--  <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#dddddd"
             android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/btn_match_edit"
+            <EditText
+                android:id="@+id/et_match_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/edit" />
-        </LinearLayout>
+                android:hint="点击的按键键码" />
+        </LinearLayout>-->
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="点击的按键键码" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,19 +123,29 @@
             android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/btn_send_code"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:text="发送" />
+           <!-- <Button
                 android:id="@+id/btn_match_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save_text" />
+                android:text="@string/save_text" />-->
 
             <Button
                 android:id="@+id/btn_match_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/back" />
+                android:text="回到首页" />
         </LinearLayout>
+
+
+
     </LinearLayout>
 
 </RelativeLayout>

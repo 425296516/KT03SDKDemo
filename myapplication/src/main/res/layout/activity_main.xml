@@ -1,17 +1,133 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <EditText
-        android:id="@+id/tv_input"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IP地址：" />
+
+            <EditText
+                android:id="@+id/et_ip_address"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="192.168.3.238" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="端口号：" />
+
+            <EditText
+                android:id="@+id/et_port"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="8080" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_air_conditioner"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="选择空调码库" />
+
+        <Button
+            android:id="@+id/btn_discover_kt03"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="发送UDP广播（获取KT03的IP）" />
+
+        <Button
+            android:id="@+id/btn_send_wifi_ssid_password"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="向kt03发送当前所连接的wifi账号和密码" />
+
+        <Button
+            android:id="@+id/btn_current_time"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="同步当前时间" />
+
+        <TextView
+            android:id="@+id/tv_current_time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="当前时间：" />
+
+
+        <Button
+            android:id="@+id/btn_air_index"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="获取环境指数" />
+
+        <TextView
+            android:id="@+id/et_air_index"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="环境指数" />
+
+        <Button
+            android:id="@+id/btn_learn_start"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="开始学习" />
+
+
+        <EditText
+            android:id="@+id/et_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="请输入需要发送的数据"
+            android:text="4546" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="发送" />
+
+
+        <TextView
+            android:id="@+id/show"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="发送" />
+
+    </LinearLayout>
+</ScrollView>

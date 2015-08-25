@@ -1,4 +1,7 @@
-package kt03.aigo.com.myapplication.business.task;
+package kt03.aigo.com.myapplication.kt03.task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.util.Log;
 
@@ -6,52 +9,28 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.goyourfly.base_task.SafeAsyncTask;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import kt03.aigo.com.myapplication.business.bean.Brand;
-import kt03.aigo.com.myapplication.business.bean.BrandList;
-import kt03.aigo.com.myapplication.business.util.Constant;
 import kt03.aigo.com.myapplication.business.util.Globals;
 import kt03.aigo.com.myapplication.business.util.HttpRequest;
 
 /**
  * Created by zhangcirui on 15/8/18.
  */
-public class GetBrandListTask extends SafeAsyncTask<BrandList> {
+public class getBrandListTask extends SafeAsyncTask<List<Brand>> {
 
-    private static final String TAG = GetBrandListTask.class.getSimpleName();
-
-    public int mDeviceId;
-
-    public GetBrandListTask(int deviceId){
-        this.mDeviceId = deviceId;
-    }
+    private static final String TAG = getBrandListTask.class.getSimpleName();
 
     @Override
-    public BrandList call() throws Exception {
+    public List<Brand> call() throws Exception {
 
         try {
-          /*  StringBuffer url = new StringBuffer(Constant.brandUrl);
-            Future<String> future = AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpPost(url.toString()), null);
-            String value = future.get(Constant.TIME_OUT, TimeUnit.MILLISECONDS);
-*/
+  
 
-
-            /*Brand[][] brands = new Gson().fromJson(value, Brand[][].class);
-
-            for(Brand brand : brands[0]){
-
-                Log.d(TAG,brand.toString());
-
-            }*/
-            BrandList brandList = new BrandList();
             List<Brand> brands = new ArrayList<Brand>();
             Gson gson = new Gson();
 
             Object[][] comBrands = gson.fromJson(
-                    HttpRequest.sendGet(Constant.GETSERVERBRAND+""+mDeviceId),
+                    HttpRequest.sendGet(Globals.GETSERVERBRAND + "5"),
                     new TypeToken<Object[][]>() {
                     }.getType());
 
@@ -68,9 +47,8 @@ public class GetBrandListTask extends SafeAsyncTask<BrandList> {
                 brands.add(brand);
             }
 
-            brandList.setBrandList(brands);
             Log.d(TAG,brands.toString());
-            return brandList;
+            return brands;
         } catch (Exception e) {
             Log.d(TAG, e.toString());
             return null;

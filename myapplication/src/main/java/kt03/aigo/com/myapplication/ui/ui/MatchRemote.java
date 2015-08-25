@@ -1,53 +1,42 @@
 package kt03.aigo.com.myapplication.ui.ui;
 
-import java.util.ArrayList;
 
-import java.util.List;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
 import android.util.Log;
-
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import android.widget.Button;
 import android.widget.GridView;
-
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.aigo.usermodule.ui.util.ToastUtil;
+
+import java.util.List;
 
 import kt03.aigo.com.myapplication.R;
-import kt03.aigo.com.myapplication.business.bean.IRCode;
+import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.bean.IRKey;
 import kt03.aigo.com.myapplication.business.bean.IRKeyAdapter;
-import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.bean.Remote;
 import kt03.aigo.com.myapplication.business.db.IRDataBase;
 import kt03.aigo.com.myapplication.business.ircode.CallbackOnInfraredSended;
 import kt03.aigo.com.myapplication.business.ircode.IInfraredSender;
 import kt03.aigo.com.myapplication.business.ircode.impl.InfraredSender;
+import kt03.aigo.com.myapplication.business.task.KeyList;
 import kt03.aigo.com.myapplication.business.util.ApplianceType;
-import kt03.aigo.com.myapplication.business.util.Constant;
 import kt03.aigo.com.myapplication.business.util.ETLogger;
 import kt03.aigo.com.myapplication.business.util.Globals;
-import kt03.aigo.com.myapplication.business.util.HttpRequest;
 import kt03.aigo.com.myapplication.business.util.RemoteApplication;
 import kt03.aigo.com.myapplication.business.util.RemoteUtils;
 
-
 public class MatchRemote extends Activity implements OnClickListener,
         CallbackOnInfraredSended {
-    private final static String TAG = "MatchRemote";
+    private final static String TAG = MatchRemote.class.getSimpleName();
 
     static Context mContext;
     public static MatchRemote instance;
@@ -76,8 +65,8 @@ public class MatchRemote extends Activity implements OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-       // instance = this;
-        //RemoteApplication.getInstance().addActivity(instance);
+        instance = this;
+        RemoteApplication.getInstance().addActivity(instance);
         initData();
         createView();
         mSeneder = new InfraredSender();
@@ -86,19 +75,6 @@ public class MatchRemote extends Activity implements OnClickListener,
     public void createView() {
 
         setContentView(R.layout.activity_match_remote);
-     /*   mTitleBarView = (TitleBarView) findViewById(R.id.title_bar);
-        mTitleBarView.setCommonTitle(View.VISIBLE, View.VISIBLE, View.GONE,
-                View.GONE);
-        mTitleBarView.setTitleTextStr(mBrand);
-        mTitleBarView.setBtnLeft(R.string.brand);
-        mTitleBarView.setBtnLeftOnclickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });*/
 
         indexShow = (TextView) findViewById(R.id.tv_show_index);
 
@@ -106,7 +82,7 @@ public class MatchRemote extends Activity implements OnClickListener,
         next.setOnClickListener(this);
         test = (Button) findViewById(R.id.btn_match_test);
         test.setOnClickListener(this);
-        test.setText("测试");
+        test.setText(R.string.test);
 
         gvRemoteKeys = (GridView) findViewById(R.id.gv_remote_key);
 
@@ -118,13 +94,13 @@ public class MatchRemote extends Activity implements OnClickListener,
     public void initData() {
         maxIndex = Globals.modelSearchs.size();
 
-        if (5 == ApplianceType.AIR_CONDITIONER
+        if (Globals.deviceID == ApplianceType.AIR_CONDITIONER
                 ) {
-           /* if(Globals.NETCONNECT == false){
+            if (Globals.NETCONNECT == false) {
                 airType = 1;
-            }else {*/
+            } else {
                 airType = 2;
-            //}
+            }
         } else {
             airType = 0;
         }
@@ -145,8 +121,38 @@ public class MatchRemote extends Activity implements OnClickListener,
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_match_test:
-                Thread thread = new Thread(new GetKeysRunnable(idModelSearch));
-                thread.start();
+
+                //Thread thread = new Thread(new GetKeysRunnable(idModelSearch));
+                //thread.start();
+
+                Module.getInstance().getRemoteKey(idModelSearch, new Module.OnPostListener<KeyList>() {
+                    @Override
+                    public void onSuccess(KeyList result) {
+                        //ToastUtil.showToast(getApplicationContext(), result.toString() + "");
+
+                        List<IRKey> irKeys = result.getIrKeys();
+                        if (irKeys != null && irKeys.size() > 0) {
+                            // Log.d(TAG,"keys="+irKeys.get(0).toString()+"");
+                            Message message = new Message();
+                            message.what = GET_IR_KEY_OK;
+                            message.obj = irKeys;
+                            handler.sendMessage(message);
+                        } else {
+                            Message message = new Message();
+                            message.what = GET_IR_KEY_FAIL;
+                            message.obj = irKeys;
+                            handler.sendMessage(message);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(String err) {
+
+                        ToastUtil.showToast(getApplicationContext(), err + "");
+                    }
+                });
+
 
                 break;
             case R.id.btn_match_next:
@@ -161,27 +167,22 @@ public class MatchRemote extends Activity implements OnClickListener,
     private void reInitViewPager() {
         modelIndex++;
         if (modelIndex >= maxIndex) {
-            /*Intent i = new Intent(MatchRemote.this, WarningPager.class);
-            startActivity(i);*/
+            //Intent i = new Intent(MatchRemote.this, WarningPager.class);
+            //startActivity(i);
         } else {
-
             setIndexShow();
             getDBRemote();
             initKeysView();
-
         }
-
     }
 
     void getDBRemote() {
-            mRemote = new Remote();
-            mRemote.setBrand(Globals.MBrand);
-            mRemote.setKeys(Globals.modelSearchs.get(modelIndex).getKeys());
-            idModelSearch = Globals.modelSearchs.get(modelIndex).getId();
-            mRemote.setId(Globals.MBrand.getBrand() + "_" + idModelSearch);
-            mRemote.setModel(Globals.MBrand.getBrand() + "_" + idModelSearch);
-
-
+        mRemote = new Remote();
+        mRemote.setBrand(Globals.MBrand);
+        mRemote.setKeys(Globals.modelSearchs.get(modelIndex).getKeys());
+        idModelSearch = Globals.modelSearchs.get(modelIndex).getId();
+        mRemote.setId(Globals.MBrand.getBrand() + "_" + idModelSearch);
+        mRemote.setModel(Globals.MBrand.getBrand() + "_" + idModelSearch);
 
     }
 
@@ -202,66 +203,6 @@ public class MatchRemote extends Activity implements OnClickListener,
     }
 
 
-    class GetKeysRunnable implements Runnable {
-
-        private Integer idModelSearch;
-
-        GetKeysRunnable(Integer idModelSearch) {
-            this.idModelSearch = idModelSearch;
-        }
-
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-
-            mRemote = new Remote();
-            List<IRKey> irKeys = new ArrayList<IRKey>();
-            Gson gson = new Gson();
-
-            String remoteKeyId = Constant.GETSERVERREMOTEKEY
-                    + idModelSearch.toString();
-            ETLogger.debug(remoteKeyId);
-//			String  date = HttpRequest.sendGet(remoteKeyId);
-//			Logger.debug(date);
-            Object[][] comIrKeys = gson.fromJson(
-                    HttpRequest.sendGet(remoteKeyId),
-                    new TypeToken<Object[][]>() {
-                    }.getType());
-
-            for (Object[] object : comIrKeys) {
-                IRKey irKey = new IRKey();
-                irKey.setName((String) object[0]);
-//				ETLogger.debug((String) object[1]);
-                List<Infrared> infs = new ArrayList<Infrared>();
-                IRCode ir = new IRCode((String) object[1]);
-                Infrared inf = new Infrared(ir);
-
-                infs.add(inf);
-
-                ir = new IRCode((String) object[2]);
-                inf = new Infrared(ir);
-                infs.add(inf);
-                irKey.setProtocol(0);
-                irKey.setInfrareds(infs);
-                // irKey.setDescription((String) object[5]);
-                irKeys.add(irKey);
-            }
-            if (irKeys != null && irKeys.size() > 0) {
-
-                Message message = new Message();
-                message.what = GET_IR_KEY_OK;
-                message.obj = irKeys;
-                handler.sendMessage(message);
-            } else {
-                Message message = new Message();
-                message.what = GET_IR_KEY_FAIL;
-                message.obj = irKeys;
-                handler.sendMessage(message);
-            }
-        }
-
-    }
-
     private Handler handler = new Handler() {
 
         @SuppressWarnings("unchecked")
@@ -271,7 +212,7 @@ public class MatchRemote extends Activity implements OnClickListener,
             switch (msg.what) {
                 case GET_IR_KEY_OK:
                     List<IRKey> keys = (List<IRKey>) msg.obj;
-                    if(5==ApplianceType.AIR_CONDITIONER&& isAirDiy(keys)){
+                    if (Globals.deviceID == ApplianceType.AIR_CONDITIONER && isAirDiy(keys)) {
                         mRemote = new Remote();
                         mRemote.setBrand(Globals.MBrand);
 
@@ -279,26 +220,26 @@ public class MatchRemote extends Activity implements OnClickListener,
                         mRemote.setModel(Globals.MBrand.getBrand() + "_" + idModelSearch);
                         mRemote.setType(Globals.deviceID);
                         mRemote.setAir_keys(keys);
-                       // mRemote.setKeys(IRDataBase.getAirkeys(mContext, 0));
-                        mRemote.setKeys(keys);
-                    }else {
+                        mRemote.setKeys(IRDataBase.getAirkeys(mContext, 0));
+                    } else {
                         mRemote = new Remote();
                         mRemote.setBrand(Globals.MBrand);
 
                         mRemote.setId(Globals.MBrand.getBrand() + "_" + idModelSearch);
                         mRemote.setModel(Globals.MBrand.getBrand() + "_" + idModelSearch);
-                        mRemote.setType(5);
+                        mRemote.setType(Globals.deviceID);
                         mRemote.setKeys(keys);
                     }
 
-                    ETLogger.debug("airtype ="+airType);
-                  /*  if(RemoteUtils.isDiyAirRemote(mRemote)){
+                    ETLogger.debug("airtype =" + airType);
+                    if (RemoteUtils.isDiyAirRemote(mRemote)) {
                         mRemote.setAir_keys((List<IRKey>) msg.obj);
-                        mRemote.setKeys(IRDataBase.getAirkeys(mContext,  0));
-                    }*/
+                        mRemote.setKeys(IRDataBase.getAirkeys(mContext, 0));
+                    }
+
 
                     Globals.mRemote = mRemote;
-                    Log.d(TAG,"remote="+mRemote.toString()+"keys="+mRemote.getKeys());
+                    //Log.d(TAG,"remote="+mRemote.toString()+"");
 
                     Intent i = new Intent(MatchRemote.this, ConfirmRemoteActivity.class);
                     startActivity(i);
@@ -311,26 +252,24 @@ public class MatchRemote extends Activity implements OnClickListener,
     };
 
 
-    boolean isAirDiy(List<IRKey> keys ){
-        for (IRKey key : keys )
-        {
-            if (key != null && key.getName().equalsIgnoreCase("poweroff"))
-            {
+    boolean isAirDiy(List<IRKey> keys) {
+        for (IRKey key : keys) {
+            if (key != null && key.getName().equalsIgnoreCase("poweroff")) {
                 ETLogger.debug("is diy air");
                 return true;
             }
         }
         return false;
     }
+
     @Override
     public void onInfrardSended() {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void onLongPress(int position) {
-        // TODO Auto-generated method stub
 
     }
 

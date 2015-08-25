@@ -4,7 +4,7 @@
 package kt03.aigo.com.myapplication.business.bean;
 
 import java.io.Serializable;
-
+import java.util.Arrays;
 
 
 /**
@@ -140,4 +140,16 @@ public class Infrared implements Serializable{
 		}
 	}
 
+    @Override
+    public String toString() {
+        return "Infrared{" +
+                "key_id=" + key_id +
+                ", key_type=" + key_type +
+                ", func=" + func +
+                ", data=" + Arrays.toString(data) +
+                ", freq=" + freq +
+                ", mark=" + mark +
+                ", signal=" + Arrays.toString(signal) +
+                '}';
+    }
 }

@@ -245,15 +245,10 @@ public final class Tools {
                 .getState();
         // Log.d(wifi.toString());
         // local Network
-        NetworkInfo.State local = conMan.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET)
-                .getState();
 
         if (mobile == NetworkInfo.State.CONNECTED || mobile == NetworkInfo.State.CONNECTING)
             return true;
         if (wifi == NetworkInfo.State.CONNECTED || wifi == NetworkInfo.State.CONNECTING)
-            return true;
-
-        if (local == NetworkInfo.State.CONNECTED || local == NetworkInfo.State.CONNECTING)
             return true;
 
         return false;
@@ -273,7 +268,6 @@ public final class Tools {
             file.delete();
         }
 
-        // TODO Auto-generated method stub
         try {
 
             FileOutputStream os = new FileOutputStream(file);// 输出文件流

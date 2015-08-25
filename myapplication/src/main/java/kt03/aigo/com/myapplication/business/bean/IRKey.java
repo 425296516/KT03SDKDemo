@@ -3,6 +3,7 @@
  */
 package kt03.aigo.com.myapplication.business.bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -78,7 +79,17 @@ public class IRKey {
 	public void setState(int[] state) {
 		this.state = state;
 	}
-	
-	
-	
+
+    @Override
+    public String toString() {
+        return "IRKey{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", remote_id='" + remote_id + '\'' +
+                ", infrareds=" + infrareds +
+                ", protocol=" + protocol +
+                ", state=" + Arrays.toString(state) +
+                '}';
+    }
 }
