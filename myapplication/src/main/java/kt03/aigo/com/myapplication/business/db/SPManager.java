@@ -13,9 +13,6 @@ public class SPManager {
     public static final String KEY_LIST = "KEY_LIST";
     public static final String MODEL_NUM_LIST = "MODEL_NUM_LIST";
     public static final String REMOTE_KEY = "REMOTE_KEY";
-    //public static final String MASTER_INFO = "MASTER_INFO";
-    //public static final String SESSION_SETTING_INFO = "SESSION_SETTING_INFO";
-
 
     private static SPManager spMasterManager;
 
@@ -57,23 +54,4 @@ public class SPManager {
     public void setRemoteKey(int key,String info){
         SPreferences.putString(mContext,REMOTE_KEY+""+key,info);
     }
-
-
-  /*  public String getMasterInfo(){
-        Ln.d("SPreferences:getMasterInfo:" + SPreferences.getString(mContext, MASTER_INFO, null));
-        return  SPreferences.getString(mContext,MASTER_INFO,null);
-    }
-
-    public void setMasterInfo(String info){
-        SPreferences.putString(mContext,MASTER_INFO,info);
-    }
-
-    public void setSessionSetting(String info){
-        SPreferences.putString(mContext,SESSION_SETTING_INFO,info);
-    }
-
-    public String getSessionSetting(){
-        return  SPreferences.getString(mContext,SESSION_SETTING_INFO,null);
-    }
-*/
 }

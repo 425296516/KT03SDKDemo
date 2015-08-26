@@ -6,17 +6,17 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.Timer;
 
-import kt03.aigo.com.myapplication.business.bean.Brand;
 import kt03.aigo.com.myapplication.business.bean.BrandList;
+import kt03.aigo.com.myapplication.business.bean.Remote;
 import kt03.aigo.com.myapplication.business.db.SPManager;
 import kt03.aigo.com.myapplication.business.task.GetAirConditionerCodeListTask;
 import kt03.aigo.com.myapplication.business.task.GetBrandListTask;
+import kt03.aigo.com.myapplication.business.task.GetKeyWordTask;
 import kt03.aigo.com.myapplication.business.task.GetRemoteKeyTask;
-import kt03.aigo.com.myapplication.business.task.KeyList;
-import kt03.aigo.com.myapplication.business.task.ModelNumObject;
-import kt03.aigo.com.myapplication.kt03.task.getBrandListTask;
+import kt03.aigo.com.myapplication.business.bean.IRKeyList;
+import kt03.aigo.com.myapplication.business.bean.ModelNumObject;
+import kt03.aigo.com.myapplication.business.util.Globals;
 
 /**
  * Created by zhangcirui on 15/8/18.
@@ -25,7 +25,6 @@ public class Module {
 
     private static final String TAG = Module.class.getSimpleName();
     private static Module module;
-    private Timer timer;
     private Context mContext;
 
     public interface OnPostListener<T> {
@@ -55,7 +54,7 @@ public class Module {
 
         }else {
 
-            GetBrandListTask getBrandListTask = new GetBrandListTask(5) {
+            GetBrandListTask getBrandListTask = new GetBrandListTask(Globals.AIR_CONDITIONER) {
 
                 @Override
                 protected void onSuccess(BrandList brandList) throws Exception {
@@ -83,11 +82,10 @@ public class Module {
 
         if (modelNumObject != null && modelNumObject.getModelNumList() != null) {
 
-            Log.d(TAG, "1111111");
             listener.onSuccess(modelNumObject);
 
         } else {
-            Log.d(TAG, "2222222");
+
             GetAirConditionerCodeListTask task = new GetAirConditionerCodeListTask(5, brandId) {
 
                 @Override
@@ -112,9 +110,9 @@ public class Module {
     }
 
 
-    public void getRemoteKey(final int idModelSearch ,final OnPostListener<KeyList> listener) {
+    public void getRemoteKey(final int idModelSearch ,final OnPostListener<IRKeyList> listener) {
 
-        KeyList keyList = new Gson().fromJson(SPManager.getInstance().getRemoteKey(idModelSearch), KeyList.class);
+        IRKeyList keyList = new Gson().fromJson(SPManager.getInstance().getRemoteKey(idModelSearch), IRKeyList.class);
 
         if (keyList != null && keyList.getIrKeys().size() != 0) {
 
@@ -125,7 +123,7 @@ public class Module {
             GetRemoteKeyTask task = new GetRemoteKeyTask(idModelSearch) {
 
                 @Override
-                protected void onSuccess(KeyList keyList) throws Exception {
+                protected void onSuccess(IRKeyList keyList) throws Exception {
                     super.onSuccess(keyList);
 
                     listener.onSuccess(keyList);
@@ -144,5 +142,29 @@ public class Module {
 
         }
     }
+
+
+    public void getKeyWord(final String keyWord,final OnPostListener<List<Remote>> listener){
+
+        GetKeyWordTask task = new GetKeyWordTask(keyWord){
+
+            @Override
+            protected void onSuccess(List<Remote> remotes) throws Exception {
+                super.onSuccess(remotes);
+
+                listener.onSuccess(remotes);
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                super.onException(e);
+
+                listener.onFailure(e.toString());
+            }
+
+        };
+        task.execute();
+    }
+
 
 }

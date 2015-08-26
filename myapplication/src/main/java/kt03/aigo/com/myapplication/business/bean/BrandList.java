@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Created by zhangcirui on 15/8/25.
  */
+//品牌列表集合
 public class BrandList {
 
     private List<Brand> brandList;

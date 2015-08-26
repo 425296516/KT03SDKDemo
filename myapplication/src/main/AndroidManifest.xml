@@ -12,14 +12,14 @@
     <uses-permission android:name="android.permission.TRANSMIT_IR" />
 
     <application
-        android:name="kt03.aigo.com.myapplication.business.util.RemoteApplication"
+        android:name=".business.util.RemoteApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,16 +31,12 @@
             android:label="@string/title_activity_brand_list" >
         </activity>
         <activity
-            android:name=".ui.ui.MatchRemote"
+            android:name=".ui.MatchRemote"
             android:label="@string/title_activity_match_remote" >
         </activity>
         <activity
-            android:name=".ui.ui.ConfirmRemoteActivity"
+            android:name=".ui.ConfirmRemoteActivity"
             android:label="@string/title_activity_confirm_remote" >
-        </activity>
-        <activity
-            android:name=".ui.ui.AutoModelActivity"
-            android:label="@string/title_activity_auto_model" >
         </activity>
 
         <activity
@@ -50,6 +46,10 @@
         <activity
             android:name=".ui.DiscoverKT03Activity"
             android:label="@string/title_activity_auto_model" >
+        </activity>
+        <activity
+            android:name=".ui.SearchRemoteActivity"
+            android:label="@string/title_activity_search_remote" >
         </activity>
     </application>
 

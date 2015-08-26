@@ -51,7 +51,7 @@ public class GetBrandListTask extends SafeAsyncTask<BrandList> {
             Gson gson = new Gson();
 
             Object[][] comBrands = gson.fromJson(
-                    HttpRequest.sendGet(Constant.GETSERVERBRAND+""+mDeviceId),
+                    HttpRequest.sendGet(Globals.GETSERVERBRAND+""+mDeviceId),
                     new TypeToken<Object[][]>() {
                     }.getType());
 

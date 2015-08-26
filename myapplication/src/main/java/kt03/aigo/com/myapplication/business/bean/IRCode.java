@@ -1,7 +1,10 @@
 package kt03.aigo.com.myapplication.business.bean;
 
+/**
+ *键码对象
+ */
 public class IRCode {
-	private int frequency;
+	private int frequency;//键码频率 也就是键码code中的第一个数据的
 	private int[] datas;
 	private IRCode irCode;
 
@@ -74,35 +77,6 @@ public class IRCode {
 		return true;
 	}
 
-	public void getIrcode(String codes) {
-
-		String[] codeStrs = codes.split(",");
-
-		int n;
-
-		try {
-			frequency = Integer.parseInt(codeStrs[0]);
-			int len = codeStrs.length - 1;
-			int odd = len % 2;
-			int m = 0;
-			if (odd == 1) {
-				len++;
-				m = 1;
-			}
-			datas = new int[len];
-
-			for (n = 1; n < codeStrs.length; n++) {
-				datas[(n - 1)] = Integer.parseInt(codeStrs[n]);
-			}
-			if (m != 0)
-				datas[(len - 1)] = 254;
-		} catch (Exception localException1) {
-			localException1.printStackTrace();
-
-		}
-
-	}
-
 	public IRCode(String code) {
 		if (code != null) {
 			String[] codeStrs = code.split(",");
@@ -132,15 +106,5 @@ public class IRCode {
 			this.frequency = freq;
 			this.datas = ds;
 		}
-
 	}
-
-	public boolean ProntoToConsumerIR() {
-		int time = 1000000 / frequency;
-		for (int i = 0; i < this.datas.length; i++) {
-			datas[i] = datas[i] * time;
-		}
-		return true;
-	}
-
 }

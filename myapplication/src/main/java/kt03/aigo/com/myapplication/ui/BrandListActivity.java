@@ -14,8 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aigo.usermodule.ui.util.ToastUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,16 +22,15 @@ import kt03.aigo.com.myapplication.R;
 import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.bean.Brand;
 import kt03.aigo.com.myapplication.business.bean.ModelNum;
-import kt03.aigo.com.myapplication.business.bean.SortAdapter;
+import kt03.aigo.com.myapplication.business.bean.ModelNumObject;
 import kt03.aigo.com.myapplication.business.db.LocalDB;
-import kt03.aigo.com.myapplication.business.task.ModelNumObject;
 import kt03.aigo.com.myapplication.business.util.Globals;
 import kt03.aigo.com.myapplication.business.util.RemoteApplication;
-import kt03.aigo.com.myapplication.ui.ui.CharacterParser;
-import kt03.aigo.com.myapplication.ui.ui.MatchRemote;
-import kt03.aigo.com.myapplication.ui.ui.ModelPinyinComparator;
-import kt03.aigo.com.myapplication.ui.ui.SideBar;
-import kt03.aigo.com.myapplication.ui.ui.SortModel;
+import kt03.aigo.com.myapplication.ui.pinyin.CharacterParser;
+import kt03.aigo.com.myapplication.ui.pinyin.ModelPinyinComparator;
+import kt03.aigo.com.myapplication.ui.pinyin.SideBar;
+import kt03.aigo.com.myapplication.ui.pinyin.SortAdapter;
+import kt03.aigo.com.myapplication.ui.pinyin.SortModel;
 
 public class BrandListActivity extends ActionBarActivity {
 
@@ -68,7 +65,6 @@ public class BrandListActivity extends ActionBarActivity {
 
     private Handler handler = new Handler() {
 
-        @SuppressWarnings("unchecked")
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -76,7 +72,7 @@ public class BrandListActivity extends ActionBarActivity {
                 case GET_MODEL_NUM_OK:
 
                     Globals.modelSearchs = ((List<ModelNum>) msg.obj);
-                    if (Globals.modelSearchs.size() > 0 && Globals.modelSearchs != null) {
+                    if (Globals.modelSearchs != null && Globals.modelSearchs.size() > 0) {
                         Intent intent = new Intent(BrandListActivity.this,
                                 MatchRemote.class);
 
@@ -132,22 +128,16 @@ public class BrandListActivity extends ActionBarActivity {
                                     final int position, long id) {
 
                 Brand mBrand = new Brand();
-                final String brandName = ((SortModel) adapter.getItem(position))
-                        .getName();
+                final String brandName = ((SortModel) adapter.getItem(position)).getName();
                 mBrand.setBrand_tra(brandName);
                 final int brandId = getBrandId(brandName);
-              /*    Log.d("device is " + Globals.deviceID
-                          + "  brandid is " + brandId);*/
                 String name = getBrandName(brandName);
                 mBrand.setBrand(name);
                 mBrand.setSortLetters(name);
                 mBrand.setId(brandId);
                 Globals.MBrand = mBrand;
-                    /*Thread thread = new Thread(new GetModelNumRunnable(
-                            5 , brandId));
-                    thread.start();*/
 
-                Module.getInstance().getModelNumList(brandId,new Module.OnPostListener<ModelNumObject>() {
+                Module.getInstance().getModelNumList(brandId, new Module.OnPostListener<ModelNumObject>() {
                     @Override
                     public void onSuccess(ModelNumObject result) {
                         Log.d(TAG, result.getModelNumList().toString());
@@ -158,7 +148,6 @@ public class BrandListActivity extends ActionBarActivity {
                             message.obj = result.getModelNumList();
                             handler.sendMessage(message);
                         }
-
                     }
 
                     @Override
@@ -187,7 +176,7 @@ public class BrandListActivity extends ActionBarActivity {
     int getBrandId(String brand_tr) {
         for (Brand b : Globals.MBrands) {
             if (b.getBrand_tra().equalsIgnoreCase(brand_tr)) {
-                //ETLogger.debug("getBrand is " + brand_tr);
+
                 return b.getId();
             }
         }

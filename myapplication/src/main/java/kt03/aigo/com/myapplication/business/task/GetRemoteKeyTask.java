@@ -9,16 +9,15 @@ import java.util.List;
 
 import kt03.aigo.com.myapplication.business.bean.IRCode;
 import kt03.aigo.com.myapplication.business.bean.IRKey;
+import kt03.aigo.com.myapplication.business.bean.IRKeyList;
 import kt03.aigo.com.myapplication.business.bean.Infrared;
-import kt03.aigo.com.myapplication.business.bean.Remote;
-import kt03.aigo.com.myapplication.business.util.Constant;
 import kt03.aigo.com.myapplication.business.util.Globals;
 import kt03.aigo.com.myapplication.business.util.HttpRequest;
 
 /**
  * Created by zhangcirui on 15/8/24.
  */
-public class GetRemoteKeyTask extends SafeAsyncTask<KeyList> {
+public class GetRemoteKeyTask extends SafeAsyncTask<IRKeyList> {
 
     private static final String TAG = GetAirConditionerCodeListTask.class.getSimpleName();
     private int mIdModelSearch;
@@ -28,14 +27,14 @@ public class GetRemoteKeyTask extends SafeAsyncTask<KeyList> {
     }
 
     @Override
-    public KeyList call() throws Exception {
+    public IRKeyList call() throws Exception {
 
         Gson gson = new Gson();
-        String cmd = Constant.GETSERVERREMOTEKEY
+        String cmd = Globals.GETSERVERREMOTEKEY
                 + mIdModelSearch;
 
         List<IRKey> irKeys = new ArrayList<IRKey>();
-        KeyList keyList = new KeyList();
+        IRKeyList keyList = new IRKeyList();
 
         Object[][] comIrKeys = gson.fromJson(
                 HttpRequest.sendGet(cmd),
@@ -64,7 +63,7 @@ public class GetRemoteKeyTask extends SafeAsyncTask<KeyList> {
             keyList.setIrKeys(irKeys);
             return keyList;
         } else {
-            return keyList;
+            return null;
         }
     }
 }

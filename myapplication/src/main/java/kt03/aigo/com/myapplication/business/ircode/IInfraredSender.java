@@ -20,7 +20,7 @@ public interface IInfraredSender
 	 * */
 	public List<Infrared> send(Remote remote, IRKey key);
 	
-	
-	
-	
+
+
+
 }

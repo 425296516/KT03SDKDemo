@@ -3,12 +3,14 @@
  */
 package kt03.aigo.com.myapplication.business.bean;
 
+import com.etek.ircore.RemoteCore;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
 
 /**
- * @author 红外信号
+ * @author 红外信号由IRCode转换而成
  */
 public class Infrared implements Serializable{
 
@@ -18,8 +20,6 @@ public class Infrared implements Serializable{
 
 	private int func;// 枚举类型，存放空调模式的制冷制热等一对多模式的枚举值
 
-//	@JSONField(serialzeFeatures = { SerializerFeature.BrowserCompatible,
-//			SerializerFeature.UseSingleQuotes }, name = "data")
 	private byte[] data;// 红外码值
 
 	private int freq;// 此信号的频率
@@ -36,7 +36,7 @@ public class Infrared implements Serializable{
 		this.freq = ir.getFrequency();
 		if(isValid())
 		{
-		//this.data = RemoteCore.prontoToETcode(ir.getFrequency(), ir.getDatas());
+		this.data = RemoteCore.prontoToETcode(ir.getFrequency(), ir.getDatas());
 		}
 	}
 	public long getKey_id() {
@@ -100,7 +100,7 @@ public class Infrared implements Serializable{
 		this.freq = ir.getFrequency();
 		if(isValid())
 		{
-		//this.data =RemoteCore.prontoToETcode(ir.getFrequency(), ir.getDatas());
+		this.data = RemoteCore.prontoToETcode(ir.getFrequency(), ir.getDatas());
 		}
 	}
 

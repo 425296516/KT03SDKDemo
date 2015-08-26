@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+
+        <ImageView
+            android:id="@+id/remote_pic"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+           
+            android:contentDescription="@string/app_name"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/remote_time"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+       
+            android:textColor="@color/color_gray"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/remote_time"
+            android:layout_toRightOf="@id/remote_pic"
+            android:orientation="vertical" 
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/remote_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/remote_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+   				android:gravity="center_vertical"
+                android:textColor="@color/color_gray"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

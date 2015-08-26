@@ -5,21 +5,17 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.goyourfly.base_task.SafeAsyncTask;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.http.AsyncHttpClient;
-import com.koushikdutta.async.http.AsyncHttpGet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import kt03.aigo.com.myapplication.business.bean.IRCode;
 import kt03.aigo.com.myapplication.business.bean.IRKey;
 import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.bean.ModelNum;
-import kt03.aigo.com.myapplication.business.util.Constant;
+import kt03.aigo.com.myapplication.business.bean.ModelNumObject;
 import kt03.aigo.com.myapplication.business.util.Globals;
 import kt03.aigo.com.myapplication.business.util.HttpRequest;
 
@@ -31,7 +27,6 @@ public class GetAirConditionerCodeListTask extends SafeAsyncTask<ModelNumObject>
     private static final String TAG = GetAirConditionerCodeListTask.class.getSimpleName();
     private int mIdDevice;
     private int mIdBrand;
-
 
     public GetAirConditionerCodeListTask(int idDevice, int idBrand) {
         this.mIdDevice = idDevice;
@@ -46,16 +41,12 @@ public class GetAirConditionerCodeListTask extends SafeAsyncTask<ModelNumObject>
         List<ModelNum> modelSearch = new ArrayList<ModelNum>();
 
         Gson gson = new Gson();
-        String cmd = Constant.GETSERVERSEARCHREMOTE
+        String cmd = Globals.GETSERVERSEARCHREMOTE
                 + mIdDevice + "/"
                 + mIdBrand;
 
         Map<Integer, List<Object[]>> searchRemoteKeys = gson.fromJson(HttpRequest.sendGet(cmd), new TypeToken<Map<Integer, List<Object[]>>>() {
         }.getType());
-        //Future<String> future = AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpGet(cmd.toString()), null);
-        //String value = future.get(Constant.TIME_OUT, TimeUnit.MILLISECONDS);
-        //Log.d(TAG, value + "");
-        //KeyList searchRemoteKeys = new Gson().fromJson(value, KeyList.class);
 
         Iterator<Map.Entry<Integer, List<Object[]>>> it = searchRemoteKeys.entrySet().iterator();
         while (it.hasNext()) {
@@ -69,6 +60,8 @@ public class GetAirConditionerCodeListTask extends SafeAsyncTask<ModelNumObject>
                 IRKey irkey = new IRKey();
                 irkey.setName((String) obj[0]);
                 IRCode ir = new IRCode((String) obj[1]);
+
+                Log.d(TAG,"name="+(String)obj[0]+"key="+(String)obj[1]);
 
                 Infrared inf = new Infrared(ir);
                 List<Infrared> infrareds = new ArrayList<Infrared>();

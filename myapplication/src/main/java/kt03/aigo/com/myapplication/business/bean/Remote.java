@@ -22,13 +22,9 @@ public class Remote {
 
 	List<IRKey> keys;
 
-//	@JSONField(name="fileName")
-//	String fileName;
-
 	int learn;
 
 	List<IRKey> air_keys;
-
 	
 	public List<IRKey> getAir_keys() {
 		return air_keys;
@@ -122,14 +118,6 @@ public class Remote {
 	{
 		this.brand = brand;
 	}
-	
-//	public String getFileName() {
-//		return fileName;
-//	}
-//
-//	public void setFileName(String fileName) {
-//		this.fileName = fileName;
-//	}
 
 	public int getLearn() {
 		return learn;
@@ -154,10 +142,4 @@ public class Remote {
                 ", air_keys=" + air_keys +
                 '}';
     }
-
-
-    //	public String getDesc() {
-//		// TODO Auto-generated method stub
-//		return Globals.getTypeStr(type)+"_" +brand.getPinyin()+"_"+ name+ "_"+ model+"_"+brand_id +"_"+id;
-//	}
 }

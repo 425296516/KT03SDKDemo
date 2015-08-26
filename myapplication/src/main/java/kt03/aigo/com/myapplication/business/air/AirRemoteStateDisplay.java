@@ -13,9 +13,6 @@ import kt03.aigo.com.myapplication.R;
 public class AirRemoteStateDisplay {
 	AirRemoteStateDisplay() {
 	}
-	
-
-	
 
 	public static int getModeStrId(AirRemoteState airState) {
 		if (airState.mode == AirMode.AUTO) {

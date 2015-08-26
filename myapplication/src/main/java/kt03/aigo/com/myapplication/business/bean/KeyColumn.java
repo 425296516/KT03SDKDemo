@@ -70,4 +70,15 @@ public class KeyColumn {
 
     }
 
+    @Override
+    public String toString() {
+        return "KeyColumn{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", device=" + device +
+                ", type=" + type +
+                ", key_column=" + key_column +
+                ", name_tran='" + name_tran + '\'' +
+                '}';
+    }
 }

@@ -40,6 +40,25 @@
             android:name=".ui.DiscoverKT03Activity"
             android:label="@string/title_activity_discover_kt03" >
         </activity>
+
+        <activity
+            android:name=".ui.BrandListActivity"
+            android:label="@string/title_activity_brand_list" >
+        </activity>
+        <activity
+            android:name=".ui.ui.MatchRemote"
+            android:label="@string/title_activity_match_remote" >
+        </activity>
+        <activity
+            android:name=".ui.ui.ConfirmRemoteActivity"
+            android:label="@string/title_activity_confirm_remote" >
+        </activity>
+        <activity
+            android:name=".ui.ui.AutoModelActivity"
+            android:label="@string/title_activity_auto_model" >
+        </activity>
+
+
     </application>
 
 </manifest>

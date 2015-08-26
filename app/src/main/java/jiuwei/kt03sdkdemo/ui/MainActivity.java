@@ -12,16 +12,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.etek.ircore.RemoteCore;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.List;
 
 import jiuwei.kt03sdkdemo.R;
 import jiuwei.kt03sdkdemo.business.SDKModule;
-import jiuwei.kt03sdkdemo.business.obj.GetLearnCodeObject;
 import jiuwei.kt03sdkdemo.business.obj.ResultObject;
 import jiuwei.kt03sdkdemo.business.util.Constant;
+import jiuwei.kt03sdkdemo.library.Module;
+import jiuwei.kt03sdkdemo.library.bean.BrandList;
+import jiuwei.kt03sdkdemo.library.bean.Infrared;
+import jiuwei.kt03sdkdemo.library.db.LocalDB;
+import jiuwei.kt03sdkdemo.library.db.SPManager;
+import jiuwei.kt03sdkdemo.library.db.UserDB;
+import jiuwei.kt03sdkdemo.library.util.Globals;
+import jiuwei.kt03sdkdemo.library.util.Tools;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -41,19 +50,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private TextView mTextCurrentTime;
     private Button mWifiSSIDPWD;
     private Button mDiscoverKT03;
-    private int time=0;
+    private Button mBtnAir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDiscoverKT03 = (Button)findViewById(R.id.btn_discover_kt03);
-        mWifiSSIDPWD = (Button)findViewById(R.id.btn_send_wifi_ssid_password);
+        Module.getInstance().init(this);
+        SPManager.getInstance().init(this);
+        Globals.NETCONNECT = Tools.testConnectivityManager();
+        createDatabase();
+        //IRDataBase.getRemoteList(this);
+
+
+        mBtnAir = (Button) findViewById(R.id.btn_air_conditioner);
+        mDiscoverKT03 = (Button) findViewById(R.id.btn_discover_kt03);
+        mWifiSSIDPWD = (Button) findViewById(R.id.btn_send_wifi_ssid_password);
         mIPAddress = (EditText) findViewById(R.id.et_ip_address);
         mPort = (EditText) findViewById(R.id.et_port);
         mConnect = (Button) findViewById(R.id.btn_current_time);
-        mTextCurrentTime = (TextView)findViewById(R.id.tv_current_time);
+        mTextCurrentTime = (TextView) findViewById(R.id.tv_current_time);
         mInput = (EditText) findViewById(R.id.et_send);
         mSend = (Button) findViewById(R.id.btn_send);
         mShow = (TextView) findViewById(R.id.show);
@@ -61,6 +78,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mAirIndex = (Button) findViewById(R.id.btn_air_index);
         mTextAirIndex = (TextView) findViewById(R.id.et_air_index);
 
+        mBtnAir.setEnabled(false);
+
+        mBtnAir.setOnClickListener(this);
         mDiscoverKT03.setOnClickListener(this);
         mWifiSSIDPWD.setOnClickListener(this);
         mAirIndex.setOnClickListener(this);
@@ -68,194 +88,210 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mLearnStart.setOnClickListener(this);
         mSend.setOnClickListener(this);
 
+        Module.getInstance().getBrandList(new Module.OnPostListener<BrandList>() {
+            @Override
+            public void onSuccess(BrandList brandList) {
+
+                Globals.MBrands = (ArrayList)brandList.getBrandList();
+                mBtnAir.setEnabled(true);
+            }
+
+            @Override
+            public void onFailure(String err) {
+
+            }
+        });
 
     }
 
-    private Timer timer;
+    private void createDatabase() {
+
+
+        UserDB mUserDB = new UserDB(this);
+        try {
+            mUserDB.createDataBase();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+        LocalDB mLocalDB = new LocalDB(this);
+        try {
+            mLocalDB.createDataBase();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        List<Infrared> list = (List<Infrared>) intent
+                .getSerializableExtra("INFRARED");
+
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+
+                Infrared infrare = list.get(i);
+
+                byte[] codes = RemoteCore.prontoToETcode(infrare.getFreq(),
+                        infrare.getSignal());
+                mInput.setText(Tools.bytesToHexString(codes));
+            }
+        }
+    }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
 
+            case R.id.btn_air_conditioner:
+
+                Constant.URL_KT03 = "http://"
+                        + mIPAddress.getText().toString().trim() + ":"
+                        + mPort.getText().toString().trim();
+
+                Intent i = new Intent(MainActivity.this,
+                        BrandListActivity.class);
+                startActivity(i);
+
+                break;
+
             case R.id.btn_discover_kt03:
 
-                startActivity(new Intent(MainActivity.this,DiscoverKT03Activity.class));
+                startActivity(new Intent(MainActivity.this,
+                        DiscoverKT03Activity.class));
 
                 break;
 
             case R.id.btn_send_wifi_ssid_password:
 
-                startActivity(new Intent(MainActivity.this,ConnectWifiActivity.class));
+                startActivity(new Intent(MainActivity.this,
+                        ConnectWifiActivity.class));
 
                 break;
 
             case R.id.btn_current_time:
 
-                Constant.URL_KT03 = "http://" + mIPAddress.getText().toString().trim() + ":" + mPort.getText().toString().trim();
+                Constant.URL_KT03 = "http://"
+                        + mIPAddress.getText().toString().trim() + ":"
+                        + mPort.getText().toString().trim();
 
-                final long time = System.currentTimeMillis()/1000;
-                //Date currentTime = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                final String dateString = formatter.format(System.currentTimeMillis());
+                final long time = System.currentTimeMillis() / 1000;
+                // Date currentTime = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss");
+                final String dateString = formatter.format(System
+                        .currentTimeMillis());
 
+                SDKModule.getInstance().setTime(time,
+                        new SDKModule.OnPostListener<ResultObject>() {
+                            @Override
+                            public void onSuccess(ResultObject result) {
 
-                SDKModule.getInstance().setTime(time,new SDKModule.OnPostListener<ResultObject>() {
-                    @Override
-                    public void onSuccess(ResultObject result) {
+                                if (result.getResult().getRet() == 0) {
+                                    Toast.makeText(getApplicationContext(), "同步成功",
+                                            Toast.LENGTH_SHORT).show();
+                                    mTextCurrentTime.setText("" + dateString);
+                                }
+                            }
 
-                       if(result.getResult().getRet()==0){
-                           Toast.makeText(getApplicationContext(),"同步成功",Toast.LENGTH_SHORT).show();
-                           mTextCurrentTime.setText(""+dateString);
-                       }
-
-                    }
-
-                    @Override
-                    public void onFailure(String err) {
-                        Toast.makeText(getApplicationContext(),"同步失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            @Override
+                            public void onFailure(String err) {
+                                Toast.makeText(getApplicationContext(), "同步失败",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                 break;
 
             case R.id.btn_air_index:
-                Constant.URL_KT03 = "http://" + mIPAddress.getText().toString().trim() + ":" + mPort.getText().toString().trim();
-                SDKModule.getInstance().getAirIndex(new SDKModule.OnPostListener<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                        mTextAirIndex.setText(result);
-                        Log.d(TAG, result);
-                    }
+                Constant.URL_KT03 = "http://"
+                        + mIPAddress.getText().toString().trim() + ":"
+                        + mPort.getText().toString().trim();
+                SDKModule.getInstance().getAirIndex(
+                        new SDKModule.OnPostListener<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Toast.makeText(getApplicationContext(), result,
+                                        Toast.LENGTH_SHORT).show();
+                                mTextAirIndex.setText(result);
+                                Log.d(TAG, result);
+                            }
 
-                    @Override
-                    public void onFailure(String err) {
-                        Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, err);
-                    }
-                });
+                            @Override
+                            public void onFailure(String err) {
+                                Toast.makeText(getApplicationContext(), err,
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, err);
+                            }
+                        });
 
                 break;
 
-
             case R.id.btn_send:
-                Constant.URL_KT03 = "http://" + mIPAddress.getText().toString().trim() + ":" + mPort.getText().toString().trim();
-                SDKModule.getInstance().sendIRCode(mInput.getText().toString().trim(), new SDKModule.OnPostListener<Integer>() {
-                    @Override
-                    public void onSuccess(Integer result) {
-                        Toast.makeText(getApplicationContext(),  "发送成功", Toast.LENGTH_SHORT).show();
-                        mShow.setText(mInput.getText().toString().trim());
-                        Log.d(TAG, result + "");
-                    }
+                Constant.URL_KT03 = "http://"
+                        + mIPAddress.getText().toString().trim() + ":"
+                        + mPort.getText().toString().trim();
+                SDKModule.getInstance().sendIRCode(
+                        mInput.getText().toString().trim(),
+                        new SDKModule.OnPostListener<Integer>() {
+                            @Override
+                            public void onSuccess(Integer result) {
+                                Toast.makeText(getApplicationContext(), "发送成功",
+                                        Toast.LENGTH_SHORT).show();
+                                mShow.setText(mInput.getText().toString().trim());
+                                Log.d(TAG, result + "");
+                            }
 
-                    @Override
-                    public void onFailure(String err) {
-                        Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, err);
-                    }
-                });
+                            @Override
+                            public void onFailure(String err) {
+                                Toast.makeText(getApplicationContext(), err,
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, err);
+                            }
+                        });
 
                 break;
 
             case R.id.btn_learn_start:
-                Toast.makeText(getApplicationContext(), "开始学习", Toast.LENGTH_SHORT).show();
-                Constant.URL_KT03 = "http://" + mIPAddress.getText().toString().trim() + ":" + mPort.getText().toString().trim();
-               /* SDKModule.getInstance().startLearn(new SDKModule.OnPostListener<Integer>() {
-                    @Override
-                    public void onSuccess(Integer result) {
-                        Toast.makeText(getApplicationContext(), "开始学习", Toast.LENGTH_SHORT).show();
-                        if (result == 0) {
+                Toast.makeText(getApplicationContext(), "开始学习", Toast.LENGTH_SHORT)
+                        .show();
+                Constant.URL_KT03 = "http://"
+                        + mIPAddress.getText().toString().trim() + ":"
+                        + mPort.getText().toString().trim();
 
-                            timer = new Timer();
-                            NewTimerTask timerTask = new NewTimerTask();
-                            //程序运行后立刻执行任务，每隔100ms执行一次
-                            timer.schedule(timerTask, 0, 5000);
+                SDKModule.getInstance().setLearnModel(
+                        new SDKModule.OnPostListener<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Log.d(TAG, result);
+                                mInput.setText(result);
+                                Toast.makeText(getApplicationContext(), "获取到学习码",
+                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "停止学习",
+                                        Toast.LENGTH_SHORT).show();
 
-                        }
-                    }
+                            }
 
-                    @Override
-                    public void onFailure(String err) {
-                        Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, err);
-                    }
-                });*/
-
-                SDKModule.getInstance().setLearnModel(new SDKModule.OnPostListener<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.d(TAG,result);
-                        mInput.setText(result);
-                        Toast.makeText(getApplicationContext(), "获取到学习码", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext(), "停止学习", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onFailure(String err) {
-                        Toast.makeText(MainActivity.this, err, Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, err);
-                    }
-                });
+                            @Override
+                            public void onFailure(String err) {
+                                Toast.makeText(MainActivity.this, err,
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, err);
+                            }
+                        });
 
                 break;
         }
         ;
     }
 
-
-
-    public class NewTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            if (time < 10) {
-                time++;
-                //Toast.makeText(getApplicationContext(),time+"",Toast.LENGTH_SHORT).show();
-                Log.d(TAG,"time="+time+"");
-                SDKModule.getInstance().getLearnCode(new SDKModule.OnPostListener<GetLearnCodeObject>() {
-                    @Override
-                    public void onSuccess(GetLearnCodeObject result) {
-
-                        if(result.getResult().getRet()==1){
-
-                        }else if(result.getResult().getRet()==0) {
-
-                            timer.cancel();
-                            mInput.setText(result.getCode());
-                            Toast.makeText(getApplicationContext(), "获取到学习码", Toast.LENGTH_SHORT).show();
-                            SDKModule.getInstance().stopLearn(new SDKModule.OnPostListener() {
-                                @Override
-                                public void onSuccess(Object result) {
-                                    Toast.makeText(getApplicationContext(), "停止学习", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onFailure(String err) {
-
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String err) {
-
-                    }
-                });
-            }else {
-                if (timer != null)
-                    timer.cancel();
-            }
-        }
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

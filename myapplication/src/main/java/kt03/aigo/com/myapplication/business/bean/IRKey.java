@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class IRKey {
 
-	private long id;
+	private long id;//某个按键的键码id
 
 	private String name; //按键名称，普通键可能无值，自定义键name一般都有名称，比如用户自定义了一个键“丽音”
 
@@ -19,7 +19,7 @@ public class IRKey {
 
 	private String remote_id ;//所属遥控器id
 
-	private List<Infrared> infrareds;
+	private List<Infrared> infrareds; //红外信号
 
 	private int protocol;//按键协议，协议空调的协议，一般情况一个遥控器的按键协议都一样
 

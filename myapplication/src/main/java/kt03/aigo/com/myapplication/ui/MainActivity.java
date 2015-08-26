@@ -28,7 +28,6 @@ import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.db.IRDataBase;
 import kt03.aigo.com.myapplication.business.db.LocalDB;
 import kt03.aigo.com.myapplication.business.db.SPManager;
-import kt03.aigo.com.myapplication.business.db.UserDB;
 import kt03.aigo.com.myapplication.business.util.Globals;
 import kt03.aigo.com.myapplication.business.util.Tools;
 import kt03.aigo.com.myapplication.kt03.SDKModule;
@@ -54,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mWifiSSIDPWD;
     private Button mDiscoverKT03;
     private Button mBtnAir;
+    private Button mSearchType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         createDatabase();
         //IRDataBase.getRemoteList(this);
 
+        mSearchType = (Button)findViewById(R.id.btn_search_type);
         mBtnAir = (Button) findViewById(R.id.btn_air_conditioner);
         mDiscoverKT03 = (Button) findViewById(R.id.btn_discover_kt03);
         mWifiSSIDPWD = (Button) findViewById(R.id.btn_send_wifi_ssid_password);
@@ -89,6 +90,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mConnect.setOnClickListener(this);
         mLearnStart.setOnClickListener(this);
         mSend.setOnClickListener(this);
+        mSearchType.setOnClickListener(this);
 
         Module.getInstance().getBrandList(new Module.OnPostListener<BrandList>() {
             @Override
@@ -107,15 +109,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void createDatabase() {
-
-
-        UserDB mUserDB = new UserDB(this);
-        try {
-            mUserDB.createDataBase();
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
 
         LocalDB mLocalDB = new LocalDB(this);
         try {
@@ -149,6 +142,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         switch (view.getId()) {
 
+            case R.id.btn_search_type:
+
+                Intent intent = new Intent(MainActivity.this,SearchRemoteActivity.class);
+                startActivity(intent);
+
+                break;
             case R.id.btn_air_conditioner:
 
                 Constant.URL_KT03 = "http://"

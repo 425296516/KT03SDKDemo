@@ -33,8 +33,7 @@ import kt03.aigo.com.myapplication.business.air.AirWindHoz;
 import kt03.aigo.com.myapplication.business.air.AirWindVer;
 import kt03.aigo.com.myapplication.business.bean.IRKey;
 import kt03.aigo.com.myapplication.business.bean.Infrared;
-import kt03.aigo.com.myapplication.business.util.ETLogger;
-import kt03.aigo.com.myapplication.business.util.KeyType;
+import kt03.aigo.com.myapplication.business.bean.KeyType;
 
 public class AirRemoteStateMananger
 {
@@ -102,10 +101,10 @@ public class AirRemoteStateMananger
 	/*空调遥控器状态调整*/
 	public void fitAirState(AirRemoteState state,IRKey key)
 	{
-		ETLogger.debug(TAG, "fitAirstate");
+        Log.d(TAG, "fitAirstate");
 		if(key==null||state==null)
 		{
-			ETLogger.error(TAG, "fitAirstate quit");
+            Log.d(TAG, "fitAirstate quit");
 			return;
 		}
 		state.setProtocol(key.getProtocol());
@@ -118,7 +117,7 @@ public class AirRemoteStateMananger
 		switch (key.getType())
 		{
 		case KeyType.POWER:
-			ETLogger.debug(TAG, "power key");
+            Log.d(TAG, "power key");
 			if (state.getPower() == AirPower.POWER_OFF)
 			{
 				state.setPower(AirPower.POWER_ON);
@@ -404,7 +403,7 @@ public class AirRemoteStateMananger
 		}
 
 		state.setCaculate_number(state.getCaculate_number()+1);
-		ETLogger.debug(TAG,"airRemoteState = "+state.getPower()+"_"+state.getRemote_id()+"_"+state.getTemp()+"_"+state.getTemp_display());
+        Log.d(TAG, "airRemoteState = " + state.getPower() + "_" + state.getRemote_id() + "_" + state.getTemp() + "_" + state.getTemp_display());
 
 		saveAirRemoteState(state);
 	}

@@ -3,11 +3,14 @@ package kt03.aigo.com.myapplication.business.bean;
 
 import java.util.List;
 
+/**
+ * 调用http://222.191.229.234:10068/SmartHomeServer/wyf/getSearchRemoteKey 接口获取到的数据集
+ * */
 public class ModelNum {
 
-    private Integer id;
+    private Integer id;//某种空调品牌的遥控器键码id
 
-    private List<IRKey> keys;
+    private List<IRKey> keys;//某种空调品牌的遥控器键码集合
 
     public ModelNum() {
     }
