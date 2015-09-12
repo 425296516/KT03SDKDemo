@@ -11,7 +11,7 @@ import kt03.aigo.com.myapplication.business.bean.Remote;
  * */
 public interface IInfraredSender
 {
-	final static String TAG = "IInfraredSeneder";
+	final static String TAG = "InfraredFetcher";
 
 	/**
 	 * 发送信号

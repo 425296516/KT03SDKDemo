@@ -58,9 +58,7 @@ public class Module {
                 @Override
                 protected void onSuccess(BrandList brandList) throws Exception {
                     listener.onSuccess(brandList);
-
                     SPManager.getInstance().setBrandList(new Gson().toJson(brandList));
-
                     super.onSuccess(brandList);
                 }
 
@@ -106,7 +104,6 @@ public class Module {
 
             task.execute();
         }
-
     }
 
 

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.transform.Source;
+
 import kt03.aigo.com.myapplication.R;
 import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.bean.Brand;
@@ -42,9 +44,6 @@ public class BrandListActivity extends ActionBarActivity {
     private SortAdapter adapter;
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<String> nameList = new ArrayList<String>();
-    private int mType;
-    private String mTypeName = null;
-    private LocalDB mRmtDB;
 
 //	private final String getModelNum = "http://222.191.229.234:10068/PhoneRemoteServer/wyf/getmodelnumber";
 
@@ -89,10 +88,6 @@ public class BrandListActivity extends ActionBarActivity {
     };
 
     private void initData() {
-        mRmtDB = new LocalDB(getApplicationContext());
-
-        mType = Globals.deviceID;
-        mTypeName = Globals.getTypeStr(mType);
         instance = this;
         RemoteApplication.getInstance().addActivity(instance);
     }
@@ -160,13 +155,17 @@ public class BrandListActivity extends ActionBarActivity {
             }
         });
 
-        getBrand(mTypeName);
+        getBrand();
         String[] nameListSTr = new String[nameList.size()];
         nameList.toArray(nameListSTr);
 
         SourceDateList = filledData(nameListSTr);
 
         Collections.sort(SourceDateList, pinyinComparator);
+        for(int i=0;i<SourceDateList.size();i++){
+            Log.d(TAG,SourceDateList.get(i).getSortLetters()+" name="+SourceDateList.get(i).getName());
+        }
+
         adapter = new SortAdapter(this, SourceDateList);
         brandListView.setAdapter(adapter);
 
@@ -193,11 +192,12 @@ public class BrandListActivity extends ActionBarActivity {
         return null;
     }
 
-    private ArrayList<String> getBrand(String _type) {
+    private ArrayList<String> getBrand() {
 
         for (Brand b : Globals.MBrands) {
             nameList.add(b.getBrand_tra());
         }
+        Log.d(TAG,"nameList="+nameList.toString());
         return nameList;
 
 
@@ -206,10 +206,10 @@ public class BrandListActivity extends ActionBarActivity {
     private List<SortModel> filledData(String[] date) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
 
-        for (int i = 0; i < date.length; i++) {
+        for (int i = 0; i < date.length-1; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(date[i]);
-
+            Log.d(TAG,"data["+i+"]"+date[i]);
             String pinyin = characterParser.getSelling(date[i]);
             String sortString = pinyin.substring(0, 1).toUpperCase();
 

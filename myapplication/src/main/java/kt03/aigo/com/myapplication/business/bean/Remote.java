@@ -6,25 +6,25 @@ import java.util.Map;
 public class Remote {
 
 	// **属性 *
-	String id; // ID
+	private String id; // ID
 
-	int type;
+    private int type;
 
-	String name; // 名称
+    private String name; // 名称
 
-	int room_no;    //房间编号，
+    private int room_no;    //房间编号，
 
-	int brand_id;
+    private int brand_id;
 
-	String model; // 类型
+    private String model; // 类型
 
-	Brand brand;
+    private Brand brand;
 
-	List<IRKey> keys;
+    private List<IRKey> keys;
 
-	int learn;
+    private int learn;
 
-	List<IRKey> air_keys;
+    private List<IRKey> air_keys;
 	
 	public List<IRKey> getAir_keys() {
 		return air_keys;
@@ -126,6 +126,7 @@ public class Remote {
 	public void setLearn(int learn) {
 		this.learn = learn;
 	}
+
 
     @Override
     public String toString() {

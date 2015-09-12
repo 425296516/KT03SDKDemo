@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/drw_1_shape_rectangle_white_no_stroke_eef3ec" android:state_selected="true" />
+    <item android:drawable="@drawable/drw_1_shape_rectangle_white_no_stroke_eef3ec" android:state_focused="true" />
+    <item android:drawable="@drawable/drw_1_shape_rectangle_white_no_stroke_eef3ec" android:state_pressed="true" />
+    <item android:drawable="@drawable/drw_1_shape_rectangle_white_no_stroke_f6f6f6"/>
+</selector>

@@ -28,7 +28,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <kt03.aigo.com.myapplication.ui.pinyin.SideBar
+        <jiuwei.kt03sdkdemo.ui.ui.SideBar
             android:id="@+id/sidrbar"
             android:layout_width="30.0dip"
             android:layout_height="fill_parent"

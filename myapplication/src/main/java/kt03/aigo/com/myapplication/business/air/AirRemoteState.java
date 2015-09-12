@@ -299,5 +299,35 @@ public class AirRemoteState {
 		this.time_limit = time_limit;
 	}
 
-	
+
+    @Override
+    public String toString() {
+        return "AirRemoteState{" +
+                "remote_id='" + remote_id + '\'' +
+                ", protocol=" + protocol +
+                ", current_key=" + current_key +
+                ", last_key=" + last_key +
+                ", caculate_number=" + caculate_number +
+                ", power=" + power +
+                ", mode=" + mode +
+                ", temp=" + temp +
+                ", wind_amount=" + wind_amount +
+                ", wind_direction=" + wind_direction +
+                ", wind_hoz=" + wind_hoz +
+                ", wind_ver=" + wind_ver +
+                ", super_mode=" + super_mode +
+                ", sleep=" + sleep +
+                ", hot=" + hot +
+                ", time=" + time +
+                ", temp_display=" + temp_display +
+                ", power_saving=" + power_saving +
+                ", anion=" + anion +
+                ", comfort=" + comfort +
+                ", flash_air=" + flash_air +
+                ", light=" + light +
+                ", wet=" + wet +
+                ", mute=" + mute +
+                ", time_limit=" + time_limit +
+                '}';
+    }
 }

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/KT03SDKDemo.iml" filepath="$PROJECT_DIR$/KT03SDKDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/espTouch_Demo/espTouch_Demo.iml" filepath="$PROJECT_DIR$/espTouch_Demo/espTouch_Demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kt03airdemo/kt03airdemo.iml" filepath="$PROJECT_DIR$/kt03airdemo/kt03airdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
     </modules>
   </component>

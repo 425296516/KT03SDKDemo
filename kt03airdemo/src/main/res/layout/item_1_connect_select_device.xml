@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_1_connect_select_device_background"
+        android:layout_width="match_parent"
+        android:layout_height="93dp">
+
+        <ImageView
+            android:id="@+id/iv_1_connect_select_device_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="36dp"
+            android:src="@drawable/drw_1_connect_select_device_icon"/>
+
+        <TextView
+            android:id="@+id/tv_1_connect_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="27dp"
+            android:layout_toRightOf="@id/iv_1_connect_select_device_icon"
+            android:text="我的空探狗"
+            android:textSize="15sp"
+            android:textColor="@color/color_2a2a2a"/>
+
+        <ImageView
+            android:id="@+id/iv_1_connect_select_device_whether_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/drw_1_connect_device_configuration_select_icon"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_50b017"
+    tools:context="com.aigo.kt03.fragment.ConnectDeviceConfigurationFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_1_connect_in_the_device_configuration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+       <!-- <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_marginTop="170dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+-->
+
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="启动中..."
+
+            android:textSize="15sp"
+            android:textColor="@color/color_535353"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

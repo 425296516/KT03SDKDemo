@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_50b017"
+    tools:context="com.aigo.kt03.fragment.AddKeyAcceptFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_1_add_key_accept_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="66dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/drw_1_add_appliance_control_button_background_select">
+
+        <TextView
+            android:id="@+id/tv_1_add_key_accept_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="返回"
+            android:textColor="@color/color_fbfff8"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_above="@id/rl_1_add_key_accept_button">
+
+        <ImageView
+            android:id="@+id/iv_1_add_key_accept_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drw_1_add_key_accept_ok_icon"/>
+
+        <TextView
+            android:id="@+id/tv_add_key_accept_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="41dp"
+            android:layout_marginRight="41dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="8dp"
+            android:text="恭喜，按键接收成功，点击接收成功按钮进入按键测试界面"
+            android:textColor="@color/color_fbfff8"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

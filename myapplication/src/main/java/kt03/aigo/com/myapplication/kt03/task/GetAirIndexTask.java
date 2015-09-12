@@ -26,10 +26,14 @@ public class GetAirIndexTask extends SafeAsyncTask<AirIndexObject> {
 
         try {
             StringBuffer url = new StringBuffer(Constant.URL_KT03 + "/air/getAirIndex.json");
+            Log.d(TAG,url.toString());
             Future<String> future = AsyncHttpClient.getDefaultInstance().executeString(new AsyncHttpGet(url.toString()), null);
             String value = future.get(Constant.TIME_OUT, TimeUnit.MILLISECONDS);
 
-            return new Gson().fromJson(value, AirIndexObject.class);
+            Log.d(TAG,"value="+value);
+            AirIndexObject airIndexObject = new Gson().fromJson(value, AirIndexObject.class);
+            Log.d(TAG,""+airIndexObject.toString());
+            return airIndexObject;
         } catch (Exception e) {
             Log.d(TAG, e.toString());
             return null;

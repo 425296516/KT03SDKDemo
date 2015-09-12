@@ -50,7 +50,7 @@ public class IRKeyAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
+
         if (mRemote != null && mRemote.getKeys() != null) {
             return mRemote.getKeys().size();
         }
@@ -59,7 +59,7 @@ public class IRKeyAdapter extends BaseAdapter {
 
     @Override
     public IRKey getItem(int position) {
-        // TODO Auto-generated method stub
+
         if (mRemote != null && mRemote.getKeys() != null) {
             return mRemote.getKeys().get(position);
         }
@@ -68,13 +68,13 @@ public class IRKeyAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+
         return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
+
         ViewHolder holder = null;
         final int p = position;
         if (convertView == null)// 初始化一条item

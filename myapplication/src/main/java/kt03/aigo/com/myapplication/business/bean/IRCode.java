@@ -1,5 +1,7 @@
 package kt03.aigo.com.myapplication.business.bean;
 
+import android.util.Log;
+
 /**
  *键码对象
  */
@@ -96,6 +98,7 @@ public class IRCode {
 
 				for (n = 1; n < codeStrs.length; n++) {
 					ds[(n - 1)] = Integer.parseInt(codeStrs[n]);
+                    Log.d("code=",ds[n-1]+"");
 				}
 				if (m != 0)
 					ds[(len - 1)] = 254;

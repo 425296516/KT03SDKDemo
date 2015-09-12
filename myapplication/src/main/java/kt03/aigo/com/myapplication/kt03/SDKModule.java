@@ -71,8 +71,10 @@ public class SDKModule {
 
             @Override
             protected void onSuccess(AirIndexObject o) throws Exception {
-                if (o != null)
+                if (o != null){
                     listener.onSuccess(o.toString());
+                }
+
             }
 
             @Override
@@ -277,5 +279,7 @@ public class SDKModule {
         getBrandListTask.execute();
 
     }
+
+
 
 }

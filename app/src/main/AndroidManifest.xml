@@ -21,6 +21,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".library.util.RemoteApplication"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

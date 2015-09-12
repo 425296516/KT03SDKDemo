@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'maven'
 android {
     compileSdkVersion 21
     buildToolsVersion "19.1.0"
@@ -20,4 +20,23 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:21.+'
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://115.28.43.225:82/nexus/content/repositories/releases/"){
+                authentication(userName:"admin",password:"admin123")
+            }
+            pom.groupId = 'com.jiuwei.android'
+
+            pom.version = '0.5.0'
+
+            pom.artifactId = 'espTouch_Demo'
+            pom.project{
+                name = 'espTouchDemo'
+            }
+        }
+    }
 }

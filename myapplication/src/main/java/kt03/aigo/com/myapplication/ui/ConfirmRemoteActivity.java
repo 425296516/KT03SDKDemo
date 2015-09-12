@@ -72,6 +72,7 @@ public class ConfirmRemoteActivity extends Activity implements
         airWindAmount = (TextView) findViewById(R.id.air_wind_amout);
         arsm = AirRemoteStateMananger.getInstance(mContext);
         if (mRemote.getType() == Globals.AIR_CONDITIONER) {
+            Log.d(TAG,"remoteId="+mRemote.getId()+" name="+mRemote.getName());
             airRemoteState = arsm.getAirRemoteState(mRemote.getId());
             showAirStatus(airRemoteState);
         } else {
@@ -162,6 +163,7 @@ public class ConfirmRemoteActivity extends Activity implements
             for (int i = 0; i < list.size(); i++) {
 
                 Infrared infrare = list.get(i);
+                Log.d(TAG,"infrare="+infrare.getFreq()+","+infrare.getSignal());
 
                 byte[] codes = RemoteCore.prontoToETcode(infrare.getFreq(),
                         infrare.getSignal());

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.aigo.kt03.activity.DeviceConnectActivity">
+
+    <RelativeLayout
+        android:id="@+id/tl_1_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/color_272727"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_1_connect_return"
+            android:layout_width="34dp"
+            android:layout_height="44dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/drw_1_connect_return_icon_select" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_1_connect_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="初始化"
+            android:textColor="@color/color_ffffff"
+            android:textSize="17sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_1_connect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

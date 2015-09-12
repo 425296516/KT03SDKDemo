@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="93dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_1_gas_detail_tag_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/drw_1_gas_detail_tag_background" />
+
+            <TextView
+                android:id="@+id/tv_1_gas_detail_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="清新"
+                android:textColor="@color/color_7c7c7c"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_1_gas_detail_index_level_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="12dp"
+                android:text="0mg/m³-0.025mg/m³"
+                android:textColor="@color/color_7c7c7c"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv_1_gas_detail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/tv_1_gas_detail_index_level_value"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="16sp"
+                android:text="对人体无太大影响，能够正常生活"
+                android:textColor="@color/color_2a2a2a"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_ffffff"
+    android:orientation="vertical"
+    tools:context="com.aigo.kt03.fragment.HomeApplianceControlFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/color_50b017"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KT03  ["
+            android:textColor="@color/color_d5e8c9"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_1_home_appliance_control_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在线"
+            android:textColor="@color/color_d5e8c9"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="]"
+            android:textColor="@color/color_d5e8c9"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_1_home_appliance_control"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/color_transparent"
+        android:divider="@color/color_cccccc"
+        android:dividerHeight="1px"
+        android:scrollbars="none"
+        android:listSelector="@color/color_transparent"
+        android:fastScrollEnabled="true"
+        android:focusable="true"/>
+
+</LinearLayout>

@@ -30,9 +30,6 @@
     </RelativeLayout>
 
 
-
-
-
     <GridView
         android:id="@+id/gv_remote_key"
         android:layout_width="match_parent"

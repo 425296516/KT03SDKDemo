@@ -1,5 +1,7 @@
 package jiuwei.kt03sdkdemo.library.bean;
 
+import android.util.Log;
+
 public class IRCode {
 	private int frequency;
 	private int[] datas;
@@ -122,6 +124,7 @@ public class IRCode {
 
 				for (n = 1; n < codeStrs.length; n++) {
 					ds[(n - 1)] = Integer.parseInt(codeStrs[n]);
+                    Log.d("code=", ds[n - 1] + "");
 				}
 				if (m != 0)
 					ds[(len - 1)] = 254;

@@ -24,6 +24,7 @@ import kt03.aigo.com.myapplication.R;
 import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.bean.Brand;
 import kt03.aigo.com.myapplication.business.bean.BrandList;
+import kt03.aigo.com.myapplication.business.bean.IRCode;
 import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.db.IRDataBase;
 import kt03.aigo.com.myapplication.business.db.LocalDB;
@@ -55,10 +56,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mBtnAir;
     private Button mSearchType;
 
+    private String code = "38000,236,282,21,62,22,62,21,63,21,62,21,62,22,62,21,62,22,62,22,21,21,20,21,21,21,20,21,21,21,20,21,21,21,20,21,62,22,62,21,63,21,62,22,62,22,62,22,62,22,62,21,21,21,20,21,21,21,20,21,21,21,20,21,21,21,20,21,63,21,62,22,62,22,61,22,62,22,62,21,62,22,62,21,21,21,20,21,21,21,20,21,21,21,20,21,21,21,20,21,62,22,20,21,21,21,62,22,63,21,20,21,21,21,62,21,21,21,62,21,62,22,20,21,21,21,62,21,62,22,20,21,62,22,20,21,62,22,20,21,62,22,20,21,62,22,62,21,21,21,62,21,21,21,62,21,21,21,62,22,21,21,20,21,21,21,62,22,21,21,62,21,21,21,62,21,21,21,20,21,62,22,20,21,62,22,20,21,62,22,20,21,62,22,62,21,282,22,3843";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        IRCode ir = new IRCode(code);
+
+        for(int i=0;i< ir.getDatas().length;i++){
+
+            int str = ir.getDatas()[i];
+            Log.d(TAG,""+str);
+
+        }
+        //Infrared infrare = new Infrared(ir);
+
+
+        byte[] codes = RemoteCore.prontoToETcode(ir.getFrequency(),
+                ir.getDatas());
+
 
         Module.getInstance().init(this);
         SPManager.getInstance().init(this);
@@ -83,6 +101,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         mBtnAir.setEnabled(false);
 
+        mInput.setText(Tools.bytesToHexString(codes));
+
         mBtnAir.setOnClickListener(this);
         mDiscoverKT03.setOnClickListener(this);
         mWifiSSIDPWD.setOnClickListener(this);
@@ -97,6 +117,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(BrandList brandList) {
 
                 Globals.MBrands = (ArrayList)brandList.getBrandList();
+                Log.d(TAG,"brands="+Globals.MBrands.toString()+"");
                 mBtnAir.setEnabled(true);
             }
 
@@ -110,6 +131,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void createDatabase() {
 
+        //本地数据库的作用
         LocalDB mLocalDB = new LocalDB(this);
         try {
             mLocalDB.createDataBase();
@@ -119,7 +141,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    @Override
+   /* @Override
     protected void onNewIntent(Intent intent) {
 
         List<Infrared> list = (List<Infrared>) intent
@@ -135,7 +157,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 mInput.setText(Tools.bytesToHexString(codes));
             }
         }
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
@@ -210,8 +232,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.btn_air_index:
                 Constant.URL_KT03 = "http://"
-                        + mIPAddress.getText().toString().trim() + ":"
-                        + mPort.getText().toString().trim();
+                        + mIPAddress.getText().toString().trim();
                 SDKModule.getInstance().getAirIndex(
                         new SDKModule.OnPostListener<String>() {
                             @Override

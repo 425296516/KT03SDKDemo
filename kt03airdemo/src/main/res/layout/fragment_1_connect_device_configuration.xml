@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aigo.kt03.fragment.ConnectDeviceConfigurationFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_1_connect_in_the_device_configuration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+     <!--   <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/drw_1_connect_device_configuration_circle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="30"
+                android:textSize="40sp"
+                android:textColor="@color/color_50b017"/>
+
+        </RelativeLayout>-->
+
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_marginTop="170dp"
+                android:indeterminateDrawable="@drawable/progress_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="设备配置中 请稍候..."
+            android:textSize="15sp"
+            android:textColor="@color/color_535353"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_1_connect_device_configuration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/rl_1_connect_device_configuration_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="107dp"
+            android:background="@drawable/drw_1_connect_initialize_button_background_select">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="下一步"
+                android:textColor="@color/color_50b017"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_1_connect_device_configuration_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:layout_above="@id/rl_1_connect_device_configuration_button"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/drw_1_connect_polka_dots_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="点击选择您要连接的空探狗设备"
+                android:textColor="@color/color_535353"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_1_connect_select_my_device"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:divider="@color/color_cccccc"
+            android:dividerHeight="1px"
+            android:scrollbars="none"
+            android:listSelector="@color/color_transparent"
+            android:fastScrollEnabled="true"
+            android:focusable="true"
+            android:layout_above="@id/ll_1_connect_device_configuration_text"/>
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

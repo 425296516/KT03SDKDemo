@@ -2,6 +2,7 @@ package kt03.aigo.com.myapplication.ui;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,23 +14,31 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aigo.usermodule.ui.util.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tencent.map.b.s;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kt03.aigo.com.myapplication.R;
 import kt03.aigo.com.myapplication.business.Module;
 import kt03.aigo.com.myapplication.business.adapter.IRKeyAdapter;
+import kt03.aigo.com.myapplication.business.bean.IRCode;
 import kt03.aigo.com.myapplication.business.bean.IRKey;
 import kt03.aigo.com.myapplication.business.bean.IRKeyList;
+import kt03.aigo.com.myapplication.business.bean.Infrared;
 import kt03.aigo.com.myapplication.business.bean.Remote;
 import kt03.aigo.com.myapplication.business.db.IRDataBase;
 import kt03.aigo.com.myapplication.business.ircode.CallbackOnInfraredSended;
 import kt03.aigo.com.myapplication.business.ircode.IInfraredSender;
 import kt03.aigo.com.myapplication.business.ircode.impl.InfraredSender;
+import kt03.aigo.com.myapplication.business.util.ETLogger;
 import kt03.aigo.com.myapplication.business.util.Globals;
+import kt03.aigo.com.myapplication.business.util.HttpRequest;
 import kt03.aigo.com.myapplication.business.util.RemoteApplication;
 import kt03.aigo.com.myapplication.business.util.RemoteUtils;
 
@@ -51,6 +60,7 @@ public class MatchRemote extends Activity implements OnClickListener,
     private TextView indexShow;
     private GridView gvRemoteKeys;
     private IRKeyAdapter rmtKeyAdapter;
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +87,21 @@ public class MatchRemote extends Activity implements OnClickListener,
         setIndexShow();
 
         initKeysView();
+
+        dialog = new ProgressDialog(this);
+        View view = dialog.getLayoutInflater().inflate(R.layout.dlg_loading, null);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        dialog.setContentView(view);
+
+      /*  for(int i=0;i<maxIndex;i++){
+            idModelSearch = Globals.modelSearchs.get(i).getId();
+            Thread thread = new Thread(new GetKeysRunnable(idModelSearch));
+            thread.start();
+
+        }*/
+
     }
 
     public void initData() {
@@ -211,8 +236,8 @@ public class MatchRemote extends Activity implements OnClickListener,
 
                     Globals.mRemote = mRemote;
 
-                    Intent i = new Intent(MatchRemote.this, ConfirmRemoteActivity.class);
-                    startActivity(i);
+                    //Intent i = new Intent(MatchRemote.this, ConfirmRemoteActivity.class);
+                   // startActivity(i);
                     break;
 
                 default:
@@ -239,6 +264,72 @@ public class MatchRemote extends Activity implements OnClickListener,
 
     @Override
     public void onLongPress(int position) {
+
+    }
+
+
+
+    class GetKeysRunnable implements Runnable {
+
+        private Integer idModelSearch;
+
+        GetKeysRunnable(Integer idModelSearch) {
+            this.idModelSearch = idModelSearch;
+            Toast.makeText(getApplicationContext(), idModelSearch + "", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            mRemote = new Remote();
+            List<IRKey> irKeys = new ArrayList<IRKey>();
+            Gson gson = new Gson();
+
+            String remoteKeyId = Globals.GETSERVERREMOTEKEY
+                    + idModelSearch.toString();
+            ETLogger.debug("idModelSearch=" + idModelSearch + " remoteKeyId=" + remoteKeyId);
+//			String  date = HttpRequest.sendGet(remoteKeyId);
+//			Logger.debug(date);
+            Object[][] comIrKeys = gson.fromJson(
+                    HttpRequest.sendGet(remoteKeyId),
+                    new TypeToken<Object[][]>() {
+                    }.getType());
+
+            for (Object[] object : comIrKeys) {
+                IRKey irKey = new IRKey();
+                irKey.setName((String) object[0]);
+//				ETLogger.debug((String) object[1]);
+                List<Infrared> infs = new ArrayList<Infrared>();
+                IRCode ir = new IRCode((String) object[1]);
+                Infrared inf = new Infrared(ir);
+
+                infs.add(inf);
+                Log.d("MatchRemote","setName="+object[0]+"IRCode1="+object[1]+"IRCode2="+object[2]);
+                ir = new IRCode((String) object[2]);
+                inf = new Infrared(ir);
+                infs.add(inf);
+                irKey.setProtocol(0);
+                irKey.setInfrareds(infs);
+                // irKey.setDescription((String) object[5]);
+                irKeys.add(irKey);
+            }
+            if (irKeys != null && irKeys.size() > 0) {
+                Log.d(TAG, "idmodelsearch="+idModelSearch);
+                if(idModelSearch ==  Globals.modelSearchs.get(maxIndex-1).getId()){
+                    dialog.dismiss();
+                }
+                Message message = new Message();
+                message.what = GET_IR_KEY_OK;
+                message.obj = irKeys;
+                handler.sendMessage(message);
+            } else {
+                Message message = new Message();
+                message.what = GET_IR_KEY_FAIL;
+                message.obj = irKeys;
+                handler.sendMessage(message);
+            }
+        }
 
     }
 

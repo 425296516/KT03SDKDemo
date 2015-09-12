@@ -17,6 +17,7 @@ allprojects {
     repositories {
 
         maven { url 'http://115.28.43.225:82/nexus/content/repositories/releases/' }
+        maven { url 'http://dl.bintray.com/populov/maven' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'http://clinker.47deg.com/nexus/content/groups/public' }
         jcenter()

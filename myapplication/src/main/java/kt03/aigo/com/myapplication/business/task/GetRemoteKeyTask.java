@@ -1,5 +1,7 @@
 package kt03.aigo.com.myapplication.business.task;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.goyourfly.base_task.SafeAsyncTask;
@@ -44,6 +46,9 @@ public class GetRemoteKeyTask extends SafeAsyncTask<IRKeyList> {
         for (Object[] object : comIrKeys) {
             IRKey irKey = new IRKey();
             irKey.setName((String) object[0]);
+            Log.d(TAG,"object[0]"+(String) object[0]);
+            Log.d(TAG,"object[1]"+(String) object[1]);
+            Log.d(TAG,"object[2]"+(String) object[2]);
 
             List<Infrared> infs = new ArrayList<Infrared>();
             IRCode ir = new IRCode((String) object[1]);
@@ -51,6 +56,7 @@ public class GetRemoteKeyTask extends SafeAsyncTask<IRKeyList> {
 
             infs.add(inf);
 
+            //object[2]的空调数据均为null
             ir = new IRCode((String) object[2]);
             inf = new Infrared(ir);
             infs.add(inf);

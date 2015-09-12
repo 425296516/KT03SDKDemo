@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_window_focused="false"
+        android:state_enabled="true"
+        android:state_checked="true"
+        android:drawable="@drawable/drw_1_passwords_visible_open" />
+    <item
+        android:state_window_focused="false"
+        android:state_enabled="true"
+        android:state_checked="false"
+        android:drawable="@drawable/drw_1_passwords_visible_close" />
+    <item
+        android:state_enabled="true"
+        android:state_checked="true"
+        android:state_pressed="true"
+        android:drawable="@drawable/drw_1_passwords_visible_open" />
+    <item
+        android:state_enabled="true"
+        android:state_checked="false"
+        android:state_pressed="true"
+        android:drawable="@drawable/drw_1_passwords_visible_close" />
+    <item
+        android:state_focused="true"
+        android:state_enabled="true"
+        android:state_checked="true"
+        android:drawable="@drawable/drw_1_passwords_visible_open" />
+    <item
+        android:state_focused="true"
+        android:state_enabled="true"
+        android:state_checked="false"
+        android:drawable="@drawable/drw_1_passwords_visible_close" />
+    <item
+        android:state_enabled="true"
+        android:state_checked="true"
+        android:drawable="@drawable/drw_1_passwords_visible_open" />
+    <item
+        android:state_enabled="true"
+        android:state_checked="false"
+        android:drawable="@drawable/drw_1_passwords_visible_close" />
+</selector> 

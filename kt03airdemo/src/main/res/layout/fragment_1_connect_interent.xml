@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aigo.kt03.fragment.ConnectInternetFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_1_connect_interent_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="107dp"
+        android:background="@drawable/drw_1_connect_initialize_button_background_select">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="下一步"
+            android:textColor="@color/color_50b017"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_1_connect_interent_button"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drw_1_connect_interent_icon" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="48dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner_1_connect_interent_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="48dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.aigo.kt03.uimerge.view.ClearEditText
+                    android:id="@+id/cet_1_connect_interent_password"
+                    android:layout_width="match_parent"
+                    android:digits="@string/pwd_input_digits"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:drawableRight="@drawable/drw_1_clear"
+                    android:hint="请输入WiFi密码"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:textColor="@color/color_535353"
+                    android:textSize="14sp"/>
+
+                <CheckBox
+                    android:id="@+id/cb_1_connect_interent_visible_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="34dp"
+                    android:button="@drawable/drw_1_checkbox_eye"
+                    android:visibility="invisible" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -93,6 +93,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(BrandList brandList) {
 
                 Globals.MBrands = (ArrayList)brandList.getBrandList();
+
                 mBtnAir.setEnabled(true);
             }
 
@@ -107,13 +108,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void createDatabase() {
 
 
-        UserDB mUserDB = new UserDB(this);
+       /* UserDB mUserDB = new UserDB(this);
         try {
             mUserDB.createDataBase();
         } catch (IOException e) {
 
             e.printStackTrace();
-        }
+        }*/
 
         LocalDB mLocalDB = new LocalDB(this);
         try {

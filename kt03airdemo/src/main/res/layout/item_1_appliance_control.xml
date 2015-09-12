@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/drw_1_home_item_appliance_control_background_select">
+
+    <RelativeLayout
+        android:id="@+id/rl_1_appliance_control_image"
+        android:layout_width="96dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_1_home_appliance_control_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drw_1_appliance_control_icon_air_condition" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_1_appliance_control_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/rl_1_appliance_control_image"
+        android:text="我的空调"
+        android:textColor="@color/color_535353"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_1_appliance_control_switch"
+        android:layout_width="96dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_1_home_appliance_control_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drw_1_appliance_control_on_icon_select" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

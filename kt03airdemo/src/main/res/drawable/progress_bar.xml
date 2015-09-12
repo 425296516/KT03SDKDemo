@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    
+    android:fromDegrees="0"
+    android:toDegrees="360">
+
+    <shape
+
+        android:shape="ring"
+        android:useLevel="false">
+        <corners android:radius="2dip" />
+        <gradient
+            android:type="sweep"
+            android:useLevel="false"
+            android:startColor="#ffffff"
+            android:centerColor="#50b017"
+
+            android:endColor="#50b017" />
+    </shape>
+
+</animated-rotate>
+<!--
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="3dip" />
+            <gradient android:startColor="#ffffff"
+                android:centerColor="#ffffff"
+                android:centerY="0.5"
+                android:endColor="#ffffff"
+                android:angle="360"
+                />
+        </shape>
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:radius="3dip" />
+                <gradient android:startColor="#80ffd300"
+                    android:centerColor="#80ffb600"
+                    android:centerY="0.5"
+                    android:endColor="#a0ffcb00"
+                    android:angle="360"
+                    />
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="3dip" />
+                <gradient android:startColor="@color/color_50b017"
+                    android:endColor="@color/color_50b017"
+                    android:angle="360" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>-->

@@ -139,6 +139,7 @@ public class InfraredFetcher implements IInfraredFetcher {
         for (IRKey key : remote.getAir_keys()) {
 
             if (key.getName().equalsIgnoreCase(value)) {
+                Log.d(TAG,"value="+value);
                 return key.getInfrareds();
             }
         }

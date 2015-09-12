@@ -33,6 +33,10 @@ public class IRKeyAdapter extends BaseAdapter {
         mCallbackOnInfraredSended = callback;
         Log.d(TAG, "keyadapt init");
         mSeneder = new InfraredSender();
+
+        for(int i=0; i<mRemote.getKeys().size();i++){
+            Log.d(TAG,"remote="+mRemote.getKeys().get(i));
+        }
     }
 
     public IRKeyAdapter(Context context, Remote remote) {
@@ -47,6 +51,7 @@ public class IRKeyAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mRemote != null && mRemote.getKeys() != null) {
+            Log.d(TAG,""+mRemote.getKeys().size());
             return mRemote.getKeys().size();
         }
         return 0;
@@ -64,7 +69,7 @@ public class IRKeyAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
 
-        return 0;
+        return position;
     }
 
     @Override
@@ -86,8 +91,9 @@ public class IRKeyAdapter extends BaseAdapter {
         }
         final IRKey key = mRemote.getKeys().get(position);
 
-        Log.d(TAG, key.toString());
         if (key != null) {
+            Log.d(TAG,"key.getName"+key.getName());
+            Log.d(TAG, key.toString());
             holder.txt_key_name.setText(key.getName());
             holder.btn_send.setText(key.getName());
             if (key.getInfrareds() != null && key.getInfrareds().size() > 0) {
@@ -106,6 +112,8 @@ public class IRKeyAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+                Log.d(TAG,"remote="+mRemote.toString());
+                Log.d(TAG,"IRKey="+key.toString());
                 List<Infrared> list = mSeneder.send(mRemote, key);
                 Constant.infraredList = list;
 

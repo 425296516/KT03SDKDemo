@@ -49,6 +49,7 @@ public class InfraredSender implements IInfraredSender {
         if (remote.getType() == Globals.AIR_CONDITIONER) {
             Log.d(TAG, "is air conditioner ");
             if (RemoteUtils.isMultiAirRemote(remote)) {
+                Log.d(TAG,"isMultiAirRemote");
 
                 AirRemoteState state = AirRemoteStateMananger.getInstance(
                         RemoteApplication.getAppContext()).getAirRemoteState(
@@ -57,12 +58,14 @@ public class InfraredSender implements IInfraredSender {
                 infrareds = mFetcher.fetchAirInfrareds(remote, key, state);
 
             } else if (RemoteUtils.isDiyAirRemote(remote)) {
-
+                Log.d(TAG,"isDiyAirRemote");
+                //获取当前空调的按键状态
                 AirRemoteState state = AirRemoteStateMananger.getInstance(
                         RemoteApplication.getAppContext()).getAirRemoteState(
                         remote.getId());
 
                 infrareds = mFetcher.fetchAirInfrareds(remote, key, state);
+
             }
         }
 
@@ -81,5 +84,6 @@ public class InfraredSender implements IInfraredSender {
             }
         }
         return list;
+
     }
 }

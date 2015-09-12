@@ -121,7 +121,7 @@ public class DiscoverKT03Activity extends Activity {
 
         // 广播的实现 :由客户端发出广播，服务器端接收
         String host = "255.255.255.255";//广播地址
-        int port = 1025;//广播的目的端口
+        int port = 1026;//广播的目的端口
         //String message = mSendMessage.getText().toString().trim();//用于发送的字符串
         try {
             InetAddress adds = InetAddress.getByName(host);
