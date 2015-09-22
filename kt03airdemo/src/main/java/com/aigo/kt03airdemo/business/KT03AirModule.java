@@ -125,7 +125,7 @@ public class KT03AirModule {
     public List<AirIndex> getHistoryAirIndex() {
 
         List<DbAirIndexObject> list = new DbAirIndexManager(mContext).queryAll();
-        List<AirIndex> airIndexList = new ArrayList<>();
+        List<AirIndex> airIndexList = new ArrayList<AirIndex>();
 
         for (DbAirIndexObject dbAirIndexObject : list) {
             AirIndex airIndex = KT03Adapter.getInstance().getAirIndex(dbAirIndexObject);
@@ -138,7 +138,7 @@ public class KT03AirModule {
     public List<AirIndex> getHistoryAirIndex2() {
 
         List<ArrayList<String>> list = new DbAirIndexManager(mContext).queryAll2();
-        List<AirIndex> airIndexList = new ArrayList<>();
+        List<AirIndex> airIndexList = new ArrayList<AirIndex>();
 
         for (ArrayList<String> ls: list) {
             AirIndex airIndex = new AirIndex();
@@ -163,7 +163,7 @@ public class KT03AirModule {
         timer = new Timer();
         TimerAirIndexTask timerTask = new TimerAirIndexTask(listener);
 
-        timer.schedule(timerTask, 0, 1800000);
+        timer.schedule(timerTask, 0, 600000);
     }
 
     /**
@@ -179,8 +179,6 @@ public class KT03AirModule {
         if (!wifimanage.isWifiEnabled()) {
             wifimanage.setWifiEnabled(true);
         }
-
-
 
         WifiInfo wifiinfo = wifimanage.getConnectionInfo();
         Log.d(TAG, "ip=" +  intToIp(wifiinfo.getIpAddress()) + "ssid=" + wifiinfo.getSSID() + "mac=" + wifiinfo.getMacAddress());

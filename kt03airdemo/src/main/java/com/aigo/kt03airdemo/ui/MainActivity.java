@@ -1,16 +1,13 @@
 package com.aigo.kt03airdemo.ui;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,18 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aigo.kt03airdemo.R;
 import com.aigo.kt03airdemo.business.KT03AirModule;
 import com.aigo.kt03airdemo.business.util.Constant;
-import com.aigo.kt03airdemo.ui.excel.ExcelUtils;
 import com.aigo.kt03airdemo.ui.fragment.HomeApplianceControlFragment;
 import com.aigo.kt03airdemo.ui.fragment.HomeIndoorEnvironmentFragment;
 import com.aigo.kt03airdemo.ui.view.ResideLayout;
 
 import java.io.File;
-import java.io.InputStream;
 
 /**
  * String ip = KT03AirModule.getInstance().ipIsWifi(getApplicationContext());
@@ -73,26 +67,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         if (ip != null) {
             Constant.URL_KT03 = "http://" + ip;
-            Log.d(TAG,Constant.URL_KT03);
+            Log.d(TAG, Constant.URL_KT03);
         }
         KT03AirModule.getInstance().udpBroadcast();
-            initView();
-            setListener();
+        initView();
+        setListener();
 
-            if (mHomeIndoorEnvironmentFragment == null) {
-                mHomeIndoorEnvironmentFragment = new HomeIndoorEnvironmentFragment();
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.fl_1_home_fragment, mHomeIndoorEnvironmentFragment).commit();
-
-            if (mHomeApplianceControlFragment == null) {
-                mHomeApplianceControlFragment = new HomeApplianceControlFragment();
-            }
-
-            showHomeIndoorEnvironmentFragment();
-            //showHomeApplianceControlFragment();
+        if (mHomeIndoorEnvironmentFragment == null) {
+            mHomeIndoorEnvironmentFragment = new HomeIndoorEnvironmentFragment();
         }
+
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.fl_1_home_fragment, mHomeIndoorEnvironmentFragment).commit();
+
+        if (mHomeApplianceControlFragment == null) {
+            mHomeApplianceControlFragment = new HomeApplianceControlFragment();
+        }
+
+        showHomeIndoorEnvironmentFragment();
+        //showHomeApplianceControlFragment();
+    }
 
     private void initView() {
         mMenu = (ResideLayout) findViewById(R.id.rl_1_home_menu);
@@ -132,7 +126,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         } else if (v.getId() == R.id.ll_1_home_appliance_control_button) { //家电控制
             //Toast.makeText(mContext,"敬请期待",Toast.LENGTH_SHORT).show();
             showHomeApplianceControlFragment();
-            switchFragment(mHomeIndoorEnvironmentFragment,mHomeApplianceControlFragment);
+            switchFragment(mHomeIndoorEnvironmentFragment, mHomeApplianceControlFragment);
             //startActivity(new Intent(MainActivity.this,HistoryRecordActivity.class));
         } else if (v.getId() == R.id.rl_1_indoor_menu) { //菜单
             mMenu.openPane();
@@ -141,10 +135,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         } else if (v.getId() == R.id.rl_1_home_add_appliance_control) { //添加
             //startActivity(new Intent(MainActivity.this,AddApplianceControlActivity.class));
-           shareMsg("导出文件","家庭环境监测","家庭环境监测",getSDPath() + "/KT03/air.xls");
+            shareMsg("导出文件", "家庭环境监测", "家庭环境监测", getSDPath() + "/KT03/air.xls");
             //showFileChooser();
         }
     }
+
     public String getSDPath() {
         File sdDir = null;
         boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);

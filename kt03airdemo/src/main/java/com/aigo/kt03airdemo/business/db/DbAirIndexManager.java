@@ -156,7 +156,7 @@ public class DbAirIndexManager {
             SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             beanList.add(dataFormat.format(Long.parseLong(pubtime)*1000));
-            beanList.add(formadehyde+"ppm");
+            beanList.add(formadehyde+"mg/m3");
             beanList.add(voc+"等级");
             beanList.add(pm25+"mg/m3");
             beanList.add(temperature+"摄氏度");
