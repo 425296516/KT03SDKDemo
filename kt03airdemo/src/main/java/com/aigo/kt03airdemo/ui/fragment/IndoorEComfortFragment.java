@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.aigo.kt03airdemo.ui.util.Constant;
 
 
 public class IndoorEComfortFragment extends Fragment {
+    private static final String TAG = IndoorEComfortFragment.class.getSimpleName();
     private View mView;
 
     private TextView mTempLevel;
@@ -29,6 +32,9 @@ public class IndoorEComfortFragment extends Fragment {
     private TextView mHumidityValue;
     private LinearLayout mHumidityBackground;
     private AirIndex mAirIndex;
+
+    private Button mBtn;
+    private Button mBtn2;
 
     @Nullable
     @Override
@@ -45,13 +51,37 @@ public class IndoorEComfortFragment extends Fragment {
         mAirIndex = airIndex;
     }
 
-    public void initData(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "22222");
+        initView();
+        initData();
+        initMembers();
+    }
 
+    public void initData(){
+        Log.d(TAG, "getTemperature=" + mAirIndex.getTemperature());
+        Log.d(TAG, "getHumidity=" + mAirIndex.getHumidity());
         mTempValue.setText(mAirIndex.getTemperature()+"");
         mHumidityValue.setText(mAirIndex.getHumidity()+"");
         AirQuality airQuality = KT03Adapter.getInstance().getAirIndexToAirQuality(mAirIndex);
         mTempLevel.setText(airQuality.getTemperature());
         mHumidityLevel.setText(airQuality.getHumidity());
+
+        if(!airQuality.getTemperature().equals("舒适"))
+        {
+            mBtn.setVisibility(View.VISIBLE);
+        }else{
+            mBtn.setVisibility(View.INVISIBLE);
+        }
+
+        if(!airQuality.getHumidity().equals("适宜")  )
+        {
+            mBtn2.setVisibility(View.VISIBLE);
+        }else{
+            mBtn2.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -63,6 +93,9 @@ public class IndoorEComfortFragment extends Fragment {
         mHumidityLevel = (TextView) mView.findViewById(R.id.tv_1_ie_comfort_humidity_level);
         mHumidityValue = (TextView) mView.findViewById(R.id.tv_1_ie_comfort_humidity_value);
         mHumidityBackground = (LinearLayout) mView.findViewById(R.id.ll_1_ie_comfort_humidity_background);
+
+        mBtn = (Button)mView.findViewById(R.id.btn);
+        mBtn2 = (Button)mView.findViewById(R.id.btn2);
     }
 
     private void initMembers() {

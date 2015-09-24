@@ -1,5 +1,7 @@
 package com.aigo.kt03airdemo.business;
 
+import android.util.Log;
+
 import com.aigo.kt03airdemo.business.db.DbAirIndexObject;
 import com.aigo.kt03airdemo.business.kt03.KT03AirIndex;
 import com.aigo.kt03airdemo.business.kt03.KT03AirIndexObject;
@@ -48,6 +50,7 @@ public class KT03Adapter {
     public AirIndex getAirIndex(DbAirIndexObject dbAirIndexObject) {
 
         AirIndex airIndex = new AirIndex();
+        airIndex.setId(dbAirIndexObject.getId());
         airIndex.setTemperature(dbAirIndexObject.getTemperature());
         airIndex.setHumidity(dbAirIndexObject.getHumidity());
         airIndex.setNoise(dbAirIndexObject.getNoise());
@@ -62,6 +65,7 @@ public class KT03Adapter {
 
     public DbAirIndexObject getDbAirIndexObject(AirIndex airIndex) {
         DbAirIndexObject dbAirIndexObject = new DbAirIndexObject();
+        dbAirIndexObject.setId(airIndex.getId());
         dbAirIndexObject.setTemperature(airIndex.getTemperature());
         dbAirIndexObject.setHumidity(airIndex.getHumidity());
         dbAirIndexObject.setNoise(airIndex.getNoise());
@@ -129,30 +133,67 @@ public class KT03Adapter {
         return airQuality;
     }
 
-    public String getIaq(KT03AirIndexObject netAirIndexObject){
-        float co2 = 0 ;
-        float formadehyde= 0 ;
-        float humidity= 0 ;
-        float noise= 0 ;
-        float voc= 0 ;
-        float tem= 0 ;
-        float pm25= 0 ;
+    public String getIaq(KT03AirIndexObject netAirIndexObject) {
+
+        long lTime1 = 0;
+        long lTime2 = 0;
+        long lTime3 = 0;
+        long lTime4 = 0;
+
+        try {
+            String sDt1 = "2015";
+            String sDt2 = "2015";
+            String sDt3 = "2015";
+            String sDt4 = "2015";
+
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
+            String yearsString = dataFormat.format(time);
+
+            sDt1 = "03/01/" + yearsString + " 00:00:00";
+            sDt2 = "06/01/" + yearsString + " 00:00:00";
+            sDt3 = "09/01/" + yearsString + " 00:00:00";
+            sDt4 = "12/01/" + yearsString + " 00:00:00";
+
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            Date dt1 = sdf.parse(sDt1);//春
+            Date dt2 = sdf.parse(sDt2);//夏
+            Date dt3 = sdf.parse(sDt3);//秋
+            Date dt4 = sdf.parse(sDt4);//冬
+            //继续转换得到秒数的long型
+            lTime1 = dt1.getTime();
+            lTime2 = dt2.getTime();
+            lTime3 = dt3.getTime();
+            lTime4 = dt4.getTime();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        float co2 = 0;
+        float formadehyde = 0;
+        float humidity = 0;
+        float noise = 0;
+        float voc = 0;
+        float tem = 0;
+        float pm25 = 0;
 
         KT03AirIndex netAirIndex = netAirIndexObject.getData();
-        long  currentTime = netAirIndexObject.getPubtime();
+        long currentTime = netAirIndexObject.getPubtime();
 
-        try{
+        try {
+            co2 = Float.parseFloat(netAirIndex.getCo2());
+            formadehyde = Float.parseFloat(netAirIndex.getFormadehyde());
+            humidity = Float.parseFloat(netAirIndex.getHumidity());
+            noise = Float.parseFloat(netAirIndex.getNoise());
 
-             co2 = Float.parseFloat(netAirIndex.getCo2());
-             formadehyde = Float.parseFloat(netAirIndex.getFormadehyde());
-             humidity = Float.parseFloat(netAirIndex.getHumidity());
-             noise = Float.parseFloat(netAirIndex.getNoise());
+            voc = Float.parseFloat(netAirIndex.getVoc());
+            tem = Float.parseFloat(netAirIndex.getTemperature());
+            pm25 = Float.parseFloat(netAirIndex.getPm25());
 
-             voc = Float.parseFloat(netAirIndex.getVoc());
-             tem = Float.parseFloat(netAirIndex.getTemperature());
-             pm25 = Float.parseFloat(netAirIndex.getPm25());
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -167,116 +208,49 @@ public class KT03Adapter {
         float p = 0;
         float t = 0;
 
-        if(co2<=350){
-            c = co2/350;
-        }else if(co2<=600){
-            c = co2/600;
-        }else if(co2<1000){
-            c = co2/1000;
-        }else if(co2<1500){
-            c = co2/1500;
-        }else{
-            c = co2/1500;
-        }
+        c = co2 / 600;
 
         list.add(c);
 
-        if(formadehyde<0.025){
-            f = formadehyde/(float)0.025;
-        }else if(formadehyde<0.04){
-            f = formadehyde/(float)0.04;
-        }else if(formadehyde<0.125){
-            f = formadehyde/(float)0.125;
-        }else if(formadehyde<0.275){
-            f = formadehyde/(float)0.275;
-        }else{
-            f = formadehyde/(float)0.275;
-        }
+        f = formadehyde / (float) 0.04;
 
         list.add(f);
 
-
-
-        if(noise < 45){
-            n = noise/45;
-        }else if(noise< 50){
-            n = noise/50;
-        }else if(noise< 55){
-            n = noise/55;
-        }else if(noise< 65){
-            n = noise/65;
-        }else{
-            n = noise/65;
-        }
+        n = noise/2;
 
         list.add(n);
 
-        if(voc<0.3){
-            v = voc/(float)0.3;
-        }else if(voc < 0.4){
-            v = voc/(float)0.4;
-        }else if(voc <= 0.8){
-            v = voc/(float)0.8;
-        }else {
-            v = voc/(float)0.8;
-        }
+        v = voc/1;
+
         list.add(v);
 
-        if(pm25<0.025){
-            p = pm25/(float)0.025;
-        }else if(pm25<=0.075){
-            p = pm25/(float)0.075;
-        }else if(pm25<0.15){
-            p = pm25/(float)0.15;
-        }else if(pm25<0.35){
-            p = pm25/(float)0.35;
-        }else{
-            p = pm25/(float)0.35;
-        }
+        p = pm25 / (float)0.075/1000;
 
         list.add(p);
 
-        if(tem>20 && tem<22){
-            t = tem/(float)22;
-        }else if(tem > 22 && tem <26){
-            t = tem/(float)26;
-        }else if(tem > 27 && tem <29){
-            t = tem/(float)29;
-        }else if(tem > 29 && tem <32){
-            t = tem/(float)32;
-        }else if(tem > 32 && tem <35){
-            t = tem/(float)35;
-        }else{
-            t = tem/36;
+        if (currentTime > lTime4) {
+            t = tem / (float) 20;
+            h = humidity / 45;
+        } else if (currentTime > lTime3) {
+            t = tem / (float) 22;
+            h = humidity / 55;
+        } else if (currentTime > lTime2) {
+            t = tem / (float) 25;
+            h = humidity / 60;
+        } else if (currentTime > lTime1) {
+            t = tem / (float) 22;
+            h = humidity / 55;
         }
-
 
         list.add(t);
-        if(humidity > 0 && humidity<35){
-            h = humidity/35;
-        }else if(humidity > 35 && humidity<40){
-            h = humidity/40;
-        }else if(humidity > 40 && humidity<45){
-            h = humidity/45;
-        }else if(humidity > 45 && humidity<50){
-            h = humidity/50;
-        }else if(humidity > 50 && humidity<55){
-            h = humidity/55;
-        }else if(humidity > 55 && humidity<65){
-            h = humidity/65;
-        }else if(humidity > 65 && humidity<70){
-            h = humidity/70;
-        }else if(humidity > 70 && humidity<75){
-            h = humidity/75;
-        }else if(humidity > 75 && humidity<100){
-            h = humidity/100;
-        }
 
         list.add(h);
-
+        Log.d("max=", "max=" + netAirIndexObject.toString());
         float max = Collections.max(list);
+        Log.d("max=", "max=" + max + " c=" + c + " f=" + f + " h=" + h + " n=" + n + " v=" + v + " p=" + p + " t=" + t);
 
-        float iaq = (float)Math.sqrt(max * (c + f + h + n + v + p + t));
+        float iaq = (float) Math.sqrt(max * (c + f + h + n + v + p + t)/7);
+        Log.d("max=","iaq="+iaq);
 
         DecimalFormat decimalFormat = new DecimalFormat("##0.00");
 
@@ -284,178 +258,174 @@ public class KT03Adapter {
     }
 
 
-
-
-    public String iaqToComfort(String iaq){
+    public String iaqToComfort(String iaq) {
         float val = 0;
-        try{
+        try {
             val = Float.parseFloat(iaq);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        if(val <= 0.49){
-            return "清洁";
+        if  (val < 0.50) {
+            return "优";
+        } else if (val >= 0.50 && val < 1.00) {
+            return "良";
+        } else if (val >= 1.00 && val < 1.50) {
+            return "轻度污染";
+        } else if (val >= 1.50 && val < 2.00) {
+            return "中度污染";
+        } else if (val >= 2.00 && val < 3.00) {
+            return "重度污染";
+        } else if (val >= 3.00) {
+            return "严重污染";
         }
-        if(val>=0.50 && val<=0.99){
-            return "未污染";
+        return "";
+    }
+
+    public String noiseToComfort(String noise) {
+
+        int val = Integer.parseInt(noise);
+        if (val == 1) {
+            return "优";
         }
-        if(val>=1.00 && val<=1.49){
+        if (val == 2) {
+            return "优";
+        }
+        if (val == 3) {
             return "轻度污染";
         }
-        if(val>=1.50 && val<=1.99){
+        if (val == 4) {
             return "中度污染";
         }
-        if(val>=2.00){
+        if (val == 5) {
             return "重度污染";
         }
 
         return "";
     }
 
-    public  String noiseToComfort(String noise){
-
-        int val = Integer.parseInt(noise);
-        if(val>0 && val<45){
-            return "安静";
-        }
-        if(val>45 && val<50){
-            return "舒适";
-        }
-        if(val>50 && val<55){
-            return "喧闹";
-        }
-        if(val>56 && val<65){
-            return "吵闹";
-        }
-        if(val>65){
-            return "刺耳";
-        }
-
-        return "";
-    }
-    public  String co2ToComfort(String co2){
+    public String co2ToComfort(String co2) {
 
         int val = Integer.parseInt(co2);
-        if(val>0 && val<350){
-            return "清新";
+        if (val > 0 && val < 350) {
+            return "优";
         }
-        if(val>351 && val<600){
-            return "较清新";
+        if (val > 351 && val < 600) {
+            return "良";
         }
-        if(val>600 && val<1000){
-            return "浑浊";
+        if (val > 600 && val < 1000) {
+            return "轻度污染";
         }
-        if(val>1000 && val<1500){
-            return "很浑浊";
+        if (val > 1000 && val < 1500) {
+            return "中度污染";
         }
-        if(val>1500){
-            return "窒息";
+        if (val > 1500) {
+            return "重度污染";
         }
 
         return "";
     }
-    public  String vocToComfort(String voc){
+
+    public String vocToComfort(String voc) {
 
         int val = Integer.parseInt(voc);
-        if(val==1){
-            return "清新";
+
+        if (val == 0) {
+            return "优";
         }
 
-        if(val==2){
-            return "浑浊";
+        if (val == 1) {
+            return "轻度污染";
         }
-        if(val==3){
-            return "很浑浊";
+        if (val == 2) {
+            return "中度污染";
         }
-        if(val==4){
-            return "窒息";
+        if (val == 3) {
+            return "重度污染";
         }
 
         return "";
     }
 
-    public  String pm25ToComfort(String pm25){
+    public String pm25ToComfort(String pm25) {
 
         float val = 0;
-        try{
+        try {
             val = Float.parseFloat(pm25);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        if(val>0 && val<0.025){
-            return "清新";
+        if (val > 0 && val < 0.025) {
+            return "优";
         }
-        if(val>0.025 && val<0.075){
-            return "较清新";
+        if (val > 0.025 && val < 0.075) {
+            return "良";
         }
-        if(val>0.076 && val<0.15){
-            return "浑浊";
+        if (val > 0.076 && val < 0.15) {
+            return "轻度污染";
         }
-        if(val>0.15 && val<0.35){
-            return "很浑浊";
+        if (val > 0.15 && val < 0.35) {
+            return "中度污染";
         }
-        if(val>0.35){
-            return "窒息";
+        if (val > 0.35) {
+            return "重度污染";
         }
 
         return "";
     }
-    public  String formadehydeToComfort(String formadehyde){
+
+    public String formadehydeToComfort(String formadehyde) {
 
         float val = 0;
-        try{
+        try {
             val = Float.parseFloat(formadehyde);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        if(val>0 && val<0.025){
-            return "清新";
+        if (val > 0 && val < 0.025) {
+            return "优";
         }
-        if(val>0.025 && val<0.04){
-            return "较清新";
+        if (val > 0.025 && val < 0.04) {
+            return "良";
         }
-        if(val>0.04 && val<0.125){
-            return "浑浊";
+        if (val > 0.04 && val < 0.125) {
+            return "轻度污染";
         }
-        if(val>0.125 && val<0.275){
-            return "很浑浊";
+        if (val > 0.125 && val < 0.275) {
+            return "中度污染";
         }
-        if(val>0.275){
-            return "窒息";
+        if (val > 0.275) {
+            return "重度污染";
         }
 
         return "";
     }
 
 
-
-
-    public String humidityToComfort(String humidity){
+    public String humidityToComfort(String humidity) {
         try {
             String sDt1 = "2015";
             String sDt2 = "2015";
             String sDt3 = "2015";
             String sDt4 = "2015";
 
-            long time =System.currentTimeMillis();
-            SimpleDateFormat dataFormat= new SimpleDateFormat("yyyy");
-            String  yearsString = dataFormat.format(time);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
+            String yearsString = dataFormat.format(time);
 
             int year = Integer.parseInt(yearsString);
-            if (year % 4 == 0 && year % 100!=0||year%400==0) {
-                sDt1 = "03/20/"+yearsString+" 00:00:00";
-                sDt2 = "06/21/"+yearsString+" 00:00:00";
-                sDt3 = "09/22/"+yearsString+" 00:00:00";
-                sDt4 = "12/21/"+yearsString+" 00:00:00";
-            }
-            else {
-                sDt1 = "03/21/"+yearsString+" 00:00:00";
-                sDt2 = "06/22/"+yearsString+" 00:00:00";
-                sDt3 = "09/23/"+yearsString+" 00:00:00";
-                sDt4 = "12/22/"+yearsString+" 00:00:00";
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                sDt1 = "03/20/" + yearsString + " 00:00:00";
+                sDt2 = "06/21/" + yearsString + " 00:00:00";
+                sDt3 = "09/22/" + yearsString + " 00:00:00";
+                sDt4 = "12/21/" + yearsString + " 00:00:00";
+            } else {
+                sDt1 = "03/21/" + yearsString + " 00:00:00";
+                sDt2 = "06/22/" + yearsString + " 00:00:00";
+                sDt3 = "09/23/" + yearsString + " 00:00:00";
+                sDt4 = "12/22/" + yearsString + " 00:00:00";
             }
 
-            SimpleDateFormat sdf= new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             Date dt1 = sdf.parse(sDt1);//春
             Date dt2 = sdf.parse(sDt2);//夏
             Date dt3 = sdf.parse(sDt3);//秋
@@ -469,111 +439,51 @@ public class KT03Adapter {
             long currentTime = System.currentTimeMillis();
             int tem = Integer.parseInt(humidity);
 
-            if(currentTime>lTime4){
+            if (currentTime > lTime4) {
 
-                if(tem>=40 && tem<=50){
-                    return "适宜";
-                }
-                if(tem>=50 && tem<55 || tem>=35 && tem <=40){
-                    return "较适宜";
-                }
-                if(tem>=55 && tem<=60){
-                    return "较潮湿";
-                }
-                if(tem>=30 && tem<=35){
-                    return "较干燥";
-                }
-                if(tem>60 && tem<65){
-                    return "潮湿";
-                }
-                if(tem>=35 && tem<=40){
+                if (tem < 30) {
                     return "干燥";
                 }
-                if(tem>65 && tem<100){
-                    return "很潮湿";
-                }
-                if(tem>0 && tem<35){
-                    return "很干燥";
-                }
-
-            }else if(currentTime>lTime3){
-
-                if(tem>=45 && tem<=55){
+                if (tem >= 30 && tem <= 60) {
                     return "适宜";
                 }
-                if(tem>=55 && tem<60 || tem>=40 && tem <=45){
-                    return "较适宜";
-                }
-                if(tem>=60 && tem<=65){
-                    return "较潮湿";
-                }
-                if(tem>=35 && tem<=40){
-                    return "较干燥";
-                }
-                if(tem>65 && tem<70){
+                if (tem > 60) {
                     return "潮湿";
                 }
-                if(tem>=30 && tem<=35){
+
+
+            } else if (currentTime > lTime3) {
+                if (tem < 40) {
                     return "干燥";
                 }
-                if(tem>70 && tem<100){
-                    return "很潮湿";
-                }
-                if(tem>0 && tem<30){
-                    return "很干燥";
-                }
-
-            }else if(currentTime>lTime2){
-
-                if(tem>=50 && tem<=60){
+                if (tem >= 40 && tem <= 70) {
                     return "适宜";
                 }
-                if(tem>=55 && tem<65 || tem>=45 && tem <=50){
-                    return "较适宜";
-                }
-                if(tem>=65 && tem<=70){
-                    return "较潮湿";
-                }
-                if(tem>=40 && tem<=45){
-                    return "较干燥";
-                }
-                if(tem>70 && tem<75){
+                if (tem > 70) {
                     return "潮湿";
                 }
-                if(tem>=35 && tem<=40){
+
+            } else if (currentTime > lTime2) {
+
+                if (tem < 40) {
                     return "干燥";
                 }
-                if(tem>75 && tem<100){
-                    return "很潮湿";
-                }
-                if(tem>0 && tem<35){
-                    return "很干燥";
-                }
-            }else if(currentTime>lTime1){
-
-                if(tem>=45 && tem<=55){
+                if (tem >= 40 && tem <= 80) {
                     return "适宜";
                 }
-                if(tem>=55 && tem<60 || tem>=40 && tem <=45){
-                    return "较适宜";
-                }
-                if(tem>=60 && tem<=65){
-                    return "较潮湿";
-                }
-                if(tem>=35 && tem<=40){
-                    return "较干燥";
-                }
-                if(tem>65 && tem<70){
+                if (tem > 80) {
                     return "潮湿";
                 }
-                if(tem>=30 && tem<=35){
+            } else if (currentTime > lTime1) {
+
+                if (tem < 40) {
                     return "干燥";
                 }
-                if(tem>70 && tem<100){
-                    return "很潮湿";
+                if (tem >= 40 && tem <= 70) {
+                    return "适宜";
                 }
-                if(tem>0 && tem<30){
-                    return "很干燥";
+                if (tem > 70) {
+                    return "潮湿";
                 }
 
             }
@@ -591,25 +501,24 @@ public class KT03Adapter {
             String sDt3 = "2015";
             String sDt4 = "2015";
 
-            long time =System.currentTimeMillis();
-            SimpleDateFormat dataFormat= new SimpleDateFormat("yyyy");
-            String  yearsString = dataFormat.format(time);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
+            String yearsString = dataFormat.format(time);
 
             int year = Integer.parseInt(yearsString);
-            if (year % 4 == 0 && year % 100!=0||year%400==0) {
-                sDt1 = "03/20/"+yearsString+" 00:00:00";
-                sDt2 = "06/21/"+yearsString+" 00:00:00";
-                sDt3 = "09/22/"+yearsString+" 00:00:00";
-                sDt4 = "12/21/"+yearsString+" 00:00:00";
-            }
-            else {
-                sDt1 = "03/21/"+yearsString+" 00:00:00";
-                sDt2 = "06/22/"+yearsString+" 00:00:00";
-                sDt3 = "09/23/"+yearsString+" 00:00:00";
-                sDt4 = "12/22/"+yearsString+" 00:00:00";
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                sDt1 = "03/20/" + yearsString + " 00:00:00";
+                sDt2 = "06/21/" + yearsString + " 00:00:00";
+                sDt3 = "09/22/" + yearsString + " 00:00:00";
+                sDt4 = "12/21/" + yearsString + " 00:00:00";
+            } else {
+                sDt1 = "03/21/" + yearsString + " 00:00:00";
+                sDt2 = "06/22/" + yearsString + " 00:00:00";
+                sDt3 = "09/23/" + yearsString + " 00:00:00";
+                sDt4 = "12/22/" + yearsString + " 00:00:00";
             }
 
-            SimpleDateFormat sdf= new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             Date dt1 = sdf.parse(sDt1);
             Date dt2 = sdf.parse(sDt2);
             Date dt3 = sdf.parse(sDt3);
@@ -622,100 +531,51 @@ public class KT03Adapter {
 
             long currentTime = System.currentTimeMillis();
             float tem = 0;
-            try{
-                 tem = Float.parseFloat(temperature);
-            }catch (Exception e){
+            try {
+                tem = Float.parseFloat(temperature);
+            } catch (Exception e) {
 
             }
 
-            if(currentTime>lTime4){
+            if (currentTime > lTime4) {
 
-                if(tem>=21 && tem<=23){
-                    return "适宜";
-                }
-                if(tem>=18 && tem<=20 || tem>=23 && tem <=25){
-                    return "较适宜";
-                }
-                if(tem>=15 && tem<=17){
-                    return "较冷";
-                }
-                if(tem>=12 && tem<=14){
-                    return "寒冷";
-                }
-                if(tem<12){
-                    return "过于寒冷";
+                if (tem <= 16) {
+                    return "偏低";
+                } else if (tem > 16 && tem <= 24) {
+                    return "舒适";
+                } else if (tem > 24) {
+                    return "偏高";
                 }
 
-            }else if(currentTime>lTime3){
+            } else if (currentTime > lTime3) {
 
-                if(tem>=18 && tem<=24){
-                    return "适宜";
-                }
-                if(tem>=24 && tem<=26){
-                    return "较适宜";
-                }
-                if(tem>=27 && tem<=30 ){
-                    return "较热";
-                }
-                if(tem>=31 && tem<=34){
-                    return "炎热";
-                }
-                if(tem >35){
-                    return "过于炎热";
-                }
-                if(tem>=15 && tem<=17 ){
-                    return "较冷";
-                }
-                if(tem>=12 && tem<=15){
-                    return "寒冷";
-                }
-                if(tem < 12){
-                    return "过于寒冷";
+                if (tem <= 18) {
+                    return "偏低";
+                } else if (tem > 18 && tem <= 24) {
+                    return "舒适";
+                } else if (tem > 24) {
+                    return "偏高";
                 }
 
-            }else if(currentTime>lTime2){
 
-                if(tem>=22 && tem<=26){
-                    return "适宜";
-                }
-                if(tem>=20 && tem<=22 || tem>=27 && tem <=29){
-                    return "较适宜";
-                }
-                if(tem>=29 && tem<=32){
-                    return "较热";
-                }
-                if(tem>=32 && tem<=35){
-                    return "炎热";
-                }
-                if(tem >36){
-                    return "过于炎热";
+            } else if (currentTime > lTime2) {
+
+                if (tem <= 22) {
+                    return "偏低";
+                } else if (tem > 22 && tem <= 28) {
+                    return "舒适";
+                } else if (tem > 28) {
+                    return "偏高";
                 }
 
-            }else if(currentTime>lTime1){
+            } else if (currentTime > lTime1) {
 
-                if(tem>=18 && tem<=24){
-                    return "适宜";
-                }
-                if(tem>=24 && tem<=26){
-                    return "较适宜";
-                }
-                if(tem>=27 && tem<=30 ){
-                    return "较热";
-                }
-                if(tem>=31 && tem<=34){
-                    return "炎热";
-                }
-                if(tem >35){
-                    return "过于炎热";
-                }
-                if(tem>=15 && tem<=17 ){
-                    return "较冷";
-                }
-                if(tem>=12 && tem<=15){
-                    return "寒冷";
-                }
-                if(tem < 12){
-                    return "过于寒冷";
+                if (tem <= 18) {
+                    return "偏低";
+                } else if (tem > 18 && tem <= 24) {
+                    return "舒适";
+                } else if (tem > 24) {
+                    return "偏高";
                 }
 
             }

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/color_ffffff"
-    tools:context="com.aigo.kt03.fragment.IndoorECleanFragment">
+    android:background="@color/color_ffffff">
 
     <LinearLayout
         android:id="@+id/ll_1_ie_pm25_background"
@@ -33,14 +32,43 @@
             android:layout_height="match_parent"
             android:layout_weight="8">
 
-            <TextView
-                android:id="@+id/tv_1_ie_clean_pm25_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="浑浊"
-                android:textColor="@color/color_535353"
-                android:textSize="13sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_centerInParent="true">
+
+                <Button
+                    android:id="@+id/btn"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_toRightOf="@+id/tv_1_ie_clean_pm25_level"
+                    android:background="@drawable/drw_1_home_air_quality_four_medium_pollution_icon"
+                    android:text="超"
+                    android:textColor="@color/color_ffffff"
+
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/tv_1_ie_clean_pm25_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="较清新"
+                    android:layout_below="@+id/btn"
+                    android:textColor="@color/color_535353"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <!-- <TextView
+                 android:id="@+id/tv_1_ie_clean_pm25_level"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:text="浑浊"
+                 android:textColor="@color/color_535353"
+                 android:textSize="13sp" />-->
 
         </RelativeLayout>
 
@@ -111,14 +139,43 @@
             android:layout_height="match_parent"
             android:layout_weight="8">
 
-            <TextView
-                android:id="@+id/tv_1_ie_clean_jiaquan_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="较清新"
-                android:textColor="@color/color_535353"
-                android:textSize="13sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:layout_centerInParent="true">
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_toRightOf="@+id/tv_1_ie_clean_jiaquan_level"
+                    android:background="@drawable/drw_1_home_air_quality_four_medium_pollution_icon"
+                    android:text="超"
+                    android:textColor="@color/color_ffffff"
+
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/tv_1_ie_clean_jiaquan_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="较清新"
+                    android:layout_below="@+id/btn2"
+                    android:textColor="@color/color_535353"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <!-- <TextView
+                 android:id="@+id/tv_1_ie_clean_jiaquan_level"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:text="较清新"
+                 android:textColor="@color/color_535353"
+                 android:textSize="13sp" />-->
 
         </RelativeLayout>
 
@@ -145,7 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="ppm"
+                    android:text="mg/m³"
                     android:textColor="@color/color_ffbe03"
                     android:textSize="12sp" />
 

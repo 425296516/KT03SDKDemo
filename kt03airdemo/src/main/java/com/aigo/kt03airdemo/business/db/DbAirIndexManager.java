@@ -172,5 +172,22 @@ public class DbAirIndexManager {
     }
 
 
+    public boolean deleteById(int id) {
+        mSqLiteDatabase = mDbAirIndexInfoHelper.getWritableDatabase();
+        String sql = "delete from " + mDbAirIndexInfoHelper.TABLE_AIR_INDEX +
+                " where _id = " + id;
+        mSqLiteDatabase.execSQL(sql);
+        mSqLiteDatabase.close();
+        return true;
+    }
+
+    public boolean deleteAll() {
+        mSqLiteDatabase = mDbAirIndexInfoHelper.getWritableDatabase();
+        String sql = "delete from " + mDbAirIndexInfoHelper.TABLE_AIR_INDEX ;
+        mSqLiteDatabase.execSQL(sql);
+        mSqLiteDatabase.close();
+        return true;
+    }
+
 
 }

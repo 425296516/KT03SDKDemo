@@ -5,6 +5,7 @@ package com.aigo.kt03airdemo.business.ui;
  */
 public class AirIndex {
 
+    private int id;
     private String temperature;
     private String humidity;
     private String noise;
@@ -15,6 +16,15 @@ public class AirIndex {
     private String iaq;
     private String iaqQuality;
     private long time;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTemperature() {
         return temperature;
@@ -99,7 +109,8 @@ public class AirIndex {
     @Override
     public String toString() {
         return "AirIndex{" +
-                "temperature='" + temperature + '\'' +
+                "id='" + id + '\'' +
+                ", temperature='" + temperature + '\'' +
                 ", humidity='" + humidity + '\'' +
                 ", noise='" + noise + '\'' +
                 ", co2='" + co2 + '\'' +

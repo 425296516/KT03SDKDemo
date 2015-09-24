@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.aigo.kt03.fragment.IndoorEQuietFragment">
+   >
 
     <LinearLayout
         android:id="@+id/ll_1_ie_quiet_noise_background"
@@ -47,19 +47,20 @@
             android:layout_weight="1"
             android:gravity="center">
 
-           <!-- <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/btn"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginLeft="28dp"
-                    android:background="@drawable/drw_1_clear"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_toRightOf="@+id/tv_1_ie_quiet_noise_level"
+                    android:background="@drawable/drw_1_home_air_quality_four_medium_pollution_icon"
                     android:text="超"
-                    android:textSize="4sp" />
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="8sp" />
 
                 <TextView
                     android:id="@+id/tv_1_ie_quiet_noise_level"
@@ -71,15 +72,14 @@
                     android:textSize="15sp" />
 
             </RelativeLayout>
--->
-            <TextView
-                android:id="@+id/tv_1_ie_quiet_noise_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="喧闹"
-                android:textColor="@color/color_535353"
-                android:textSize="15sp" />
-
+            <!-- <TextView
+                 android:id="@+id/tv_1_ie_quiet_noise_level"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="喧闹"
+                 android:textColor="@color/color_535353"
+                 android:textSize="15sp" />
+ -->
 
         </RelativeLayout>
 
@@ -103,13 +103,13 @@
                     android:textColor="@color/color_ffbe03"
                     android:textSize="22sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="DB"
-                    android:textColor="@color/color_ffbe03"
-                    android:textSize="12sp" />
+                <!-- <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerInParent="true"
+                     android:text="DB"
+                     android:textColor="@color/color_ffbe03"
+                     android:textSize="12sp" />-->
 
 
             </LinearLayout>

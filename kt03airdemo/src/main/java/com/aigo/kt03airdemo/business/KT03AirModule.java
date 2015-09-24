@@ -1,16 +1,15 @@
 package com.aigo.kt03airdemo.business;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.aigo.kt03airdemo.business.db.DbAirIndexManager;
 import com.aigo.kt03airdemo.business.db.DbAirIndexObject;
-import com.aigo.kt03airdemo.business.task.TimerAirIndexTask;
+import com.aigo.kt03airdemo.business.kt03.KT03AirIndexObject;
+import com.aigo.kt03airdemo.business.task.GetAirIndexTask;
 import com.aigo.kt03airdemo.business.ui.AirIndex;
 import com.aigo.kt03airdemo.business.util.Constant;
 import com.aigo.kt03airdemo.ui.excel.ExcelUtils;
@@ -22,6 +21,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by zhangcirui on 15/9/3.
@@ -32,7 +32,7 @@ public class KT03AirModule {
     private static KT03AirModule module;
     private OnPostListener mListener;
     private Context mContext;
-    private Timer timer;
+    //private Timer timer;
     //private AirIndex mAirIndex = null;
 
     public interface OnPostListener<T> {
@@ -63,8 +63,6 @@ public class KT03AirModule {
 
     }
 
-    private long time = 0;
-
     private boolean isFirst = false;
 
     public void getNetAirIndex(final OnPostListener listener) {
@@ -73,18 +71,11 @@ public class KT03AirModule {
             @Override
             public void onSuccess(AirIndex airIndex) {
                 long currentTime = System.currentTimeMillis();
-                if(isFirst){
+                if (isFirst) {
                     listener.onSuccess(airIndex);
                     isFirst = false;
                 }
 
-               /* if(currentTime - time>1800000){
-                    time = currentTime;*/
-                DbAirIndexObject dbAirIndexObject = KT03Adapter.getInstance().getDbAirIndexObject(airIndex);
-                DbAirIndexManager manager = new DbAirIndexManager(mContext);
-                manager.insert(dbAirIndexObject);
-                initData();
-                //}
             }
 
             @Override
@@ -93,11 +84,67 @@ public class KT03AirModule {
             }
         });
     }
-    private String[] title = { "时间", "甲醛", "VOC", "PM2.5", "温度", "湿度", "噪音", "CO2" };
+
+    Timer timer = null;
+
+    public void getAirIndex(final OnPostListener listener) {
+
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+            getAirTask(listener);
+        } else {
+            getAirTask(listener);
+        }
+    }
+
+    public void getAirTask(final OnPostListener listener) {
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                GetAirIndexTask task = new GetAirIndexTask() {
+
+                    @Override
+                    protected void onSuccess(KT03AirIndexObject result) throws Exception {
+                        if (result != null && result.getData() != null && !result.getData().getVoc().isEmpty()
+                                && !result.getData().getCo2().isEmpty() && !result.getData().getFormadehyde().isEmpty() && !result.getData().getHumidity().isEmpty()
+                                && !result.getData().getNoise().isEmpty() && !result.getData().getPm25().isEmpty() && !result.getData().getTemperature().isEmpty()) {
+                            AirIndex airIndex = KT03Adapter.getInstance().getAirIndex(result);
+                            airIndex.setPm25(Float.parseFloat(airIndex.getPm25()) / 1000 + "");
+
+                            DbAirIndexObject dbAirIndexObject = KT03Adapter.getInstance().getDbAirIndexObject(airIndex);
+                            DbAirIndexManager manager = new DbAirIndexManager(mContext);
+                            manager.insert(dbAirIndexObject);
+                            initData();
+
+                            listener.onSuccess(airIndex);
+                        }
+                    }
+
+                    @Override
+                    protected void onException(Exception e) throws RuntimeException {
+                        listener.onFailure(e.toString());
+                        super.onException(e);
+                    }
+                };
+                task.execute();
+
+            }
+        }, 0, 60000);
+
+
+    }
+
+
+    private String[] title = {"时间", "甲醛", "VOC", "PM2.5", "温度", "湿度", "噪音", "CO2"};
     private File file;
+
     public void initData() {
-        if(file ==null)
-        file = new File(getSDPath() + "/KT03");
+        if (file == null)
+            file = new File(getSDPath() + "/KT03");
         makeDir(file);
         ExcelUtils.initExcel(file.toString() + "/air.xls", title);
         ExcelUtils.writeObjListToExcel(new DbAirIndexManager(mContext).queryAll2(), getSDPath() + "/KT03/air.xls", mContext);
@@ -121,6 +168,13 @@ public class KT03AirModule {
 
     }
 
+    public void deleteById(int id) {
+        new DbAirIndexManager(mContext).deleteById(id);
+    }
+
+    public void deleteAll() {
+        new DbAirIndexManager(mContext).deleteAll();
+    }
 
     public List<AirIndex> getHistoryAirIndex() {
 
@@ -140,7 +194,7 @@ public class KT03AirModule {
         List<ArrayList<String>> list = new DbAirIndexManager(mContext).queryAll2();
         List<AirIndex> airIndexList = new ArrayList<AirIndex>();
 
-        for (ArrayList<String> ls: list) {
+        for (ArrayList<String> ls : list) {
             AirIndex airIndex = new AirIndex();
             airIndex.setTime(Long.parseLong(ls.get(0)));
             airIndex.setTemperature(ls.get(1));
@@ -159,13 +213,6 @@ public class KT03AirModule {
     }
 
 
-    public void getAirIndex(final OnPostListener listener) {
-        timer = new Timer();
-        TimerAirIndexTask timerTask = new TimerAirIndexTask(listener);
-
-        timer.schedule(timerTask, 0, 600000);
-    }
-
     /**
      * kt03的默认ip地址为-.-.-.1
      *
@@ -181,13 +228,13 @@ public class KT03AirModule {
         }
 
         WifiInfo wifiinfo = wifimanage.getConnectionInfo();
-        Log.d(TAG, "ip=" +  intToIp(wifiinfo.getIpAddress()) + "ssid=" + wifiinfo.getSSID() + "mac=" + wifiinfo.getMacAddress());
-        if(wifiinfo.getSSID().contains("KT03")){
+        Log.d(TAG, "ip=" + intToIp(wifiinfo.getIpAddress()) + "ssid=" + wifiinfo.getSSID() + "mac=" + wifiinfo.getMacAddress());
+        if (wifiinfo.getSSID().contains("KT03")) {
             String ip = intToIp2(wifiinfo.getIpAddress());
             Log.d(TAG, "ip=" + ip + "ssid=" + wifiinfo.getSSID() + "mac=" + wifiinfo.getMacAddress());
 
             return ip + ".1";
-        }else{
+        } else {
             return "192.168.4.1";
         }
 

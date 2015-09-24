@@ -1,6 +1,8 @@
 package com.aigo.kt03airdemo.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +24,10 @@ import com.aigo.kt03airdemo.business.util.Constant;
 import com.aigo.kt03airdemo.ui.fragment.HomeApplianceControlFragment;
 import com.aigo.kt03airdemo.ui.fragment.HomeIndoorEnvironmentFragment;
 import com.aigo.kt03airdemo.ui.view.ResideLayout;
+import com.aigo.usermodule.ui.LoginActivity;
 
 import java.io.File;
+import java.util.Collections;
 
 /**
  * String ip = KT03AirModule.getInstance().ipIsWifi(getApplicationContext());
@@ -103,6 +107,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mShareRL = (RelativeLayout) findViewById(R.id.rl_1_indoor_share);
         mAddLL = (RelativeLayout) findViewById(R.id.rl_1_home_add_appliance_control);
 
+        findViewById(R.id.tv_unimport).setOnClickListener(this);
+        findViewById(R.id.tv_all_delete).setOnClickListener(this);
+
         mApplianceActionbarText = (TextView) findViewById(R.id.tv_1_home_actionbar_appliance_control);
 
     }
@@ -112,7 +119,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mAppliaceLL.setOnClickListener(this);
         mMenuRL.setOnClickListener(this);
         mShareRL.setOnClickListener(this);
-        mAddLL.setOnClickListener(this);
+        //mAddLL.setOnClickListener(this);
     }
 
 
@@ -133,10 +140,51 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         } else if (v.getId() == R.id.rl_1_indoor_share) {  //分享
             // startActivity(new Intent(MainActivity.this,DeviceConnectActivity.class));
 
-        } else if (v.getId() == R.id.rl_1_home_add_appliance_control) { //添加
+        } else if (v.getId() == R.id.tv_unimport) { //添加
             //startActivity(new Intent(MainActivity.this,AddApplianceControlActivity.class));
             shareMsg("导出文件", "家庭环境监测", "家庭环境监测", getSDPath() + "/KT03/air.xls");
             //showFileChooser();
+        }else if(v.getId() == R.id.tv_all_delete){
+            loginRemind();
+        }
+    }
+
+
+    private AlertDialog mExitConfirmDialog;
+
+    public void loginRemind() {
+
+        if (mExitConfirmDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("是否全部删除？");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    KT03AirModule.getInstance().deleteAll();
+
+                    Intent broadCastIntent = new Intent("refresh_data");
+                    sendBroadcast(broadCastIntent);
+
+                    KT03AirModule.getInstance().initData();
+                }
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+
+                }
+            });
+            mExitConfirmDialog = builder.create();
+        }
+
+        if (mExitConfirmDialog.isShowing()) {
+            mExitConfirmDialog.dismiss();
+        } else {
+            mExitConfirmDialog.show();
+
+            //startActivity(new Intent(MainActivity.this, MySettingsActivity.class));
         }
     }
 
